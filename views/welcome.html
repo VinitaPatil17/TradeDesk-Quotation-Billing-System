@@ -1,0 +1,234 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TradeDesk</title>
+<link rel="stylesheet" href="/css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body class="auth-body">
+
+<div class="welcome-container">
+
+<div class="logo">
+<h1>TradeDesk</h1>
+</div>
+
+<p class="tagline">Built For You.....</p>
+
+<button class="primary-btn" onclick="goToLogin()">Continue</button>
+
+</div>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html> -->.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TradeDesk</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e3a8a);
+    color: white;
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.nav-links a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #cbd5f5;
+    font-size: 14px;
+}
+
+.nav-links a:hover {
+    color: white;
+}
+
+/* HERO */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 80px 60px;
+}
+
+.hero-text {
+    max-width: 500px;
+}
+
+.hero-text h1 {
+    font-size: 48px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.hero-text p {
+    color: #cbd5f5;
+    margin-bottom: 30px;
+}
+
+.cta-btn {
+    background: #ff6b35;
+    padding: 12px 22px;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.cta-btn.secondary {
+    background: transparent;
+    border: 1px solid #cbd5f5;
+}
+
+.hero-img {
+    width: 400px;
+    height: 250px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* FEATURES */
+.features {
+    background: white;
+    color: #1e293b;
+    padding: 60px;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+}
+
+.features h2 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.feature-card {
+    background: #f8fafc;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.feature-card h4 {
+    margin-bottom: 10px;
+}
+
+/* CTA SECTION */
+.cta-section {
+    text-align: center;
+    padding: 60px;
+    background: #0f172a;
+}
+
+.cta-section h2 {
+    margin-bottom: 20px;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="logo">TradeDesk</div>
+    <div class="nav-links">
+        <a href="/login.html"  >Login</a>
+        <a href="/register.html">Register</a>
+    </div>
+</div>
+
+<div class="hero">
+
+    <div class="hero-text">
+        <h1>Manage Your Business Smartly</h1>
+        <p>Create quotations, manage products, track ledgers and grow your business with ease.</p>
+
+        <button class="cta-btn" onclick="location.href='/register.html'">Get Started</button>
+        <button class="cta-btn secondary" onclick="location.href='/login.html'">Login</button>
+    </div>
+
+    <!-- <div class="hero-img">
+        Dashboard Preview
+    </div> -->
+
+</div>
+
+<div class="features">
+
+    <h2>Powerful Features</h2>
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+            <h4>Quotation Management</h4>
+            <p>Create and manage professional quotations instantly.</p>
+        </div>
+
+        <div class="feature-card">
+            <h4>Product Tracking</h4>
+            <p>Organize all your products with pricing and details.</p>
+        </div>
+
+        <div class="feature-card">
+            <h4>Ledger System</h4>
+            <p>Maintain customer records and transaction history.</p>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="cta-section">
+
+    <h2>Start Managing Your Business Today</h2>
+    <button class="cta-btn" onclick="location.href='/register.html'">Create Free Account</button>
+
+</div>
+
+<div class="footer">
+    © 2026 TradeDesk. All rights reserved.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+<link rel="stylesheet" href="/css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+    
+    <%- include("partials/sidebar") %>
+
+    <!-- MAIN AREA -->
+    <div class="main-content">
+
+    <!-- HEADER -->
+    <div class="header premium-header">
+        <div>
+            <h2 id="companyName"></h2>
+            <p class="sub-text">Welcome back 👋 Manage your business efficiently</p>
+        </div>
+
+        <div class="header-right">
+            <span class="last-edit" id="lastUpdated"></span>
+            <div class="profile-wrapper">
+
+    <div class="profile-icon" onclick="toggleProfileMenu()">
+        <i class="fa-solid fa-user"></i>
+    </div>
+
+    <div class="profile-dropdown" id="profileDropdown">
+        <div onclick="openProfileModal()">
+            <i class="fa-solid fa-user" style="color: #1e3a8a;" ></i> View Profile
+        </div>
+        <div onclick="confirmLogout()">
+            <i class="fa-solid fa-right-from-bracket" style="color: #1e3a8a;"></i> Logout
+        </div>
+    </div>
+
+</div>
+        </div>
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="quick-actions">
+
+        <div class="action-card" onclick="location.href='/quotation'">
+            <i class="fa-solid fa-file-invoice"></i>
+            <p>Create Quotation</p>
+        </div>
+
+        <div class="action-card" onclick="location.href='/products'">
+            <i class="fa-solid fa-box"></i>
+            <p>Add Product</p>
+        </div>
+
+        <div class="action-card" onclick="location.href='/ledgers'">
+            <i class="fa-solid fa-users"></i>
+            <p>Add Ledger</p>
+        </div>
+
+    </div>
+
+    <!-- RECENT QUOTATIONS -->
+    <div class="section">
+
+        <div class="section-header">
+            <h3>Recent Quotations</h3>
+            <button class="view-all-btn" onclick="location.href='/quotation'">
+                View All
+            </button>
+        </div>
+
+        <div class="table-container">
+
+            <table class="quotation-table">
+
+                <thead>
+                    <tr>
+                        <th>Quotation No</th>
+                        <th>Party Name</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+
+                <tbody id="recentQuotationBody">
+                    <!-- dynamic later -->
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="modal" id="logoutModal">
+
+    <div class="modal-content logout-modal">
+
+        <h3>Confirm Logout</h3>
+        <p>Are you sure you want to logout?</p>
+
+        <div class="modal-actions">
+            <button class="cancel-btn" onclick="closeLogoutModal()">Cancel</button>
+            <button class="logout-btn" onclick="logoutUser()">Logout</button>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal" id="profileModal">
+    <div class="modal-content profile-modal">
+
+        <div class="profile-header">
+            <h2>Profile Details</h2>
+            <span onclick="closeProfileModal()" class="close-btn">&times;</span>
+        </div>
+
+        <div class="profile-body">
+
+            <div class="profile-field">
+                <label>Company Name</label>
+                <input type="text" id="profileCompany" readonly>
+            </div>
+
+            <div class="profile-field">
+                <label>GST No</label>
+                <input type="text" id="profileGST" readonly>
+            </div>
+
+            <div class="profile-field">
+                <label>Email</label>
+                <input type="text" id="profileEmail" readonly>
+            </div>
+
+            <div class="profile-field">
+                <label>Phone</label>
+                <input type="text" id="profilePhone" readonly>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</div>
+
+</div>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

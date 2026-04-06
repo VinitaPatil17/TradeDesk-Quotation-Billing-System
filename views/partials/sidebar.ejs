@@ -1,0 +1,46 @@
+<div class="sidebar" id="sidebar">
+
+<div class="sidebar-top">
+<div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+</div>
+
+<ul class="menu">
+
+<li class="<%= activePage === 'dashboard' ? 'active' : '' %>" >
+<a href="/dashboard">
+<i class="fa-solid fa-chart-column icon"></i>
+<span class="text">Dashboard</span>
+</a>
+</li>
+
+<li class="<%= activePage === 'products' ? 'active' : '' %>" >
+<a href="/products">
+<i class="fa-solid fa-user icon"></i>
+<span class="text">Products</span>
+</a>
+</li>
+
+<li  >
+<a href="/ledgers">
+<i class="fa-solid fa-box icon"></i>
+<span class="text">Ledgers</span>
+</a>
+</li>
+
+<li>
+<a href="/quotation">
+<i class="fa-solid fa-file icon"></i>
+<span class="text">Quotations</span>
+</a>
+</li>
+
+<li>
+<a href="/settings">
+<i class="fa-solid fa-gear icon"></i>
+<span class="text">Settings</span>
+</a>
+</li>
+
+</ul>
+
+</div>

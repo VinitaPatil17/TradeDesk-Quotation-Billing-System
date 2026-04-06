@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Ledgers</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/products.css"> <!-- reuse same css -->
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+    <%- include("partials/sidebar") %>
+
+<div class="main-content">
+
+
+<div class="products-section">
+
+<div class="products-header">
+
+<h3>Ledger List</h3>
+
+<div class="tools">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input type="text" placeholder="Search here" oninput="searchLedgers()" id="searchInput">
+</div>
+
+</div>
+
+<div id="actionBar" class="action-bar">
+    <span id="selectedCount">0 selected</span>
+
+    <button onclick="bulkDelete()" class="delete-btn">Delete</button>
+    <button onclick="clearSelection()" class="cancel-btn">Cancel</button>
+</div>
+
+<table class="products-table">
+
+<thead>
+<tr id="ledgerHeader">
+     <th>
+        <input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)">
+    </th>
+<th>Name</th>
+<th>GST No</th>
+<th>State</th>
+<th>City</th>
+<th>Phone No</th>
+<th></th>
+</tr>
+</thead>
+
+<tbody id="ledgerBody">
+</tbody>
+
+</table>
+
+<button class="new-product-btn" onclick="openModal()">
++ New Ledger
+</button>
+
+</div>
+
+</div>
+</div>
+
+<!-- ADD LEDGER MODAL -->
+
+<div class="modal" id="ledgerModal">
+
+<div class="modal-content">
+
+    <h3>Ledger Details</h3>
+
+    <div class="form-group">
+        <label>Ledger Name</label>
+        <input id="name" type="text" placeholder="Enter name">
+    </div>
+
+    <div class="form-group">
+        <label>GST Number</label>
+        <input id="gst" type="text" maxlength="14" placeholder="Enter GST No" oninput="validateGST(this)">
+    </div>
+
+    <div class="form-group">
+        <label>State</label>
+        <select id="state" onchange="loadCities()">
+            <option value="">Select State</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>City</label>
+        <select id="city">
+            <option value="">Select City</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Phone Number</label>
+        <input id="phone" type="text" maxlength="10" placeholder="Enter phone" oninput="validatePhone(this)">
+    </div>
+
+    <div class="modal-actions">
+        <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+        <button id="saveLedgerBtn" onclick="saveLedger()">Save</button>
+    </div>
+
+</div>
+
+</div>
+
+<script src="/js/ledgers.js"></script>
+
+</body>
+</html>

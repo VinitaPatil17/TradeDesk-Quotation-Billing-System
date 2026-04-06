@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+body{
+    font-family: 'Segoe UI', Arial;
+    padding: 20px;
+    background: #f9fafb;
+}
+
+/* MAIN CONTAINER */
+.container{
+    width: 800px;
+    margin: auto;
+    border: 1px solid #000;
+    background: white;
+    padding: 20px;
+}
+
+/* HEADER */
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* COMPANY */
+.company-block{
+    display: none;
+}
+
+.company-block h3{
+    margin: 0;
+}
+
+.company-block p{
+    margin: 3px 0;
+    font-size: 13px;
+}
+
+/* TITLE RIGHT */
+.quote-box{
+    text-align: right;
+}
+
+.quote-title{
+    font-size: 23px;
+    font-weight: bold;
+    color: #1e3a8a;
+}
+
+.quote-meta{
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+/* CUSTOMER SECTION */
+.section-title{
+    background: #1e3a8a;
+    color: white;
+    padding: 6px;
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.customer-info p{
+    margin: 3px 0;
+    font-size: 13px;
+}
+
+/* PRODUCT TABLE */
+.product-table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.product-table th{
+    background: #1e3a8a;
+    color: white;
+    padding: 8px;
+    font-size: 13px;
+}
+
+.product-table td{
+    border: 1px solid #ccc;
+    padding: 6px;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* TOTAL SECTION */
+.total-box{
+    width: 250px;
+    margin-left: auto;
+    margin-top: 10px;
+    border-collapse: collapse;
+}
+
+.total-box td{
+    border: 1px solid #000;
+    padding: 6px;
+    font-size: 13px;
+}
+
+.total-box tr:last-child{
+    font-weight: bold;
+    background: #f1f5f9;
+}
+
+/* TERMS */
+.terms{
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+.signature{
+    margin-top: 40px;
+}
+
+.signature-line{
+    margin-top: 40px;
+    border-top: 1px solid #000;
+    width: 200px;
+}
+
+/* PRINT */
+@media print {
+    body { margin: 0; }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+
+    <!-- COMPANY LEFT -->
+    <!-- <div id="companyBlock" class="company-block"></div> -->
+
+    <% if(company && company.include_company){ %>
+<div class="company-block" style="display:block;">
+    <h3><%= company.company_name %></h3>
+    <p><%= company.address %></p>
+    <p>GST: <%= company.gst_no %></p>
+    <p>Phone: <%= company.phone %></p>
+    <p>Email: <%= company.email %></p>
+</div>
+<% } %>
+
+    <!-- RIGHT SIDE -->
+    <div class="quote-box">
+        <div class="quote-title">QUOTATION</div>
+
+        <div class="quote-meta">
+            <p><b>Date:</b> <%= new Date(quotation.date).toLocaleDateString() %></p>
+            <p><b>Place:</b> <%= quotation.place %></p>
+        </div>
+    </div>
+
+</div>
+
+<!-- CUSTOMER -->
+<div class="section-title">Customer</div>
+
+<div class="customer-info">
+    <p><b>Name:</b> <%= quotation.ledger_name %></p>
+    <p><b>Phone:</b> <%= quotation.phone %></p>
+</div>
+
+<!-- PRODUCTS -->
+<table class="product-table">
+
+<tr>
+<th>Sr</th>
+<th>Description</th>
+<th>Weight</th>
+<th>Qty</th>
+<th>Price</th>
+<th>Total</th>
+</tr>
+
+<% let totalRows = 20; %>
+<% let sr = 1; %>
+
+<% for(let i = 0; i < totalRows; i++){ %>
+
+    <% if(items[i]){ %>
+    <tr>
+        <td><%= sr %></td>
+        <td style="text-align:left;"><%= items[i].products_description %></td>
+        <td><%= items[i].weight %></td>
+        <td><%= items[i].qty %></td>
+        <td><%= items[i].price %></td>
+        <td><%= items[i].total %></td>
+    </tr>
+    <% sr++; %>
+
+    <% } else { %>
+    <tr>
+        <td>&nbsp;</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <% } %>
+
+<% } %>
+
+</table>
+
+<!-- TOTAL -->
+<table class="total-box">
+
+<tr>
+<td>Amount</td>
+<td><%= quotation.grand_total - quotation.other_charges %></td>
+</tr>
+
+<tr>
+<td>Other</td>
+<td><%= quotation.other_charges %></td>
+</tr>
+
+<tr>
+<td>Total</td>
+<td><%= quotation.grand_total %></td>
+</tr>
+
+</table>
+
+<!-- TERMS -->
+<div class="terms">
+<p>Note : The rates mentioned in this quotation exclude GST, which will be charged separately as applicable, and are valid for 7 days only.</p>
+</div>
+
+</div>
+
+<!-- <script>
+const urlParams = new URLSearchParams(window.location.search);
+const isDownload = urlParams.get("download");
+
+if(isDownload === "true"){
+    window.onload = () => {
+        window.print();
+    };
+}
+</script> -->
+
+<script>
+const isDownload = "<%= isDownload %>" === "true";
+
+if(isDownload){
+    window.onload = () => {
+        window.print();
+    };
+}
+</script>
+
+<!-- <script src="/js/quotation.js"></script> -->
+
+</body>
+</html>

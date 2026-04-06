@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Products</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/products.css">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+<%- include("partials/sidebar") %>
+
+<div class="main-content">
+
+<div class="products-section">
+
+<div class="products-header">
+
+<h3>Product List</h3>
+
+<div class="tools">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+<input type="text" placeholder="Search here" onkeyup="searchProducts()" id="searchInput">
+
+</div>
+
+</div>
+
+<div class="action-bar" id="actionBar">
+    <span id="selectedCount">0 selected</span>
+
+    <div>
+        <button class="delete-btn" onclick="deleteSelected()">Delete</button>
+        <button class="cancel-btn" onclick="clearSelection()">Cancel</button>
+    </div>
+</div>
+
+<table class="products-table">
+
+<thead>
+<tr id="productHeader" >
+<th>
+    <input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)">
+</th>
+<th>Product Description</th>
+<th>Weight</th>
+<th>Unit Price</th>
+<th></th>
+</tr>
+</thead>
+
+<tbody id="productsBody">
+
+</tbody>
+
+</table>
+
+
+<button class="new-product-btn" onclick="openModal()">
++ New Product
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- PRODUCT MODAL -->
+
+<!-- PRODUCT MODAL -->
+
+<div class="modal" id="productModal">
+
+    <div class="modal-content">
+
+        <h3>Enter Product Details</h3>
+
+        <div class="form-group">
+            <label>Product Description</label>
+            <input id="desc" type="text" placeholder="Enter product name">
+        </div>
+
+        <div class="form-group">
+            <label>Weight</label>
+            <input id="weight" type="text" placeholder="e.g. 10kg">
+        </div>
+
+        <div class="form-group">
+            <label>Unit Price</label>
+            <input id="price" type="text" placeholder="e.g. ₹500">
+        </div>
+
+        <div class="modal-actions">
+            <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+            <button class="save-btn" onclick="saveProduct()">Save</button>
+        </div>
+
+    </div>
+</div>
+
+<script src="/js/products.js"></script>
+
+</body>
+</html>
