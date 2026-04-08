@@ -28,9 +28,7 @@ app.use(express.static("views"));
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-const PORT = 5000;
-
-
+const PORT = process.env.PORT || 3000;
 
 app.get("/dashboard", isAuthenticated, (req, res) => {
     res.render("dashboard", {activePage:"dashboard"});
@@ -67,5 +65,5 @@ const productRoutes = require("./routes/productRoutes");
 app.use("/api", productRoutes);
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
