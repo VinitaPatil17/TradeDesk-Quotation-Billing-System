@@ -128,7 +128,28 @@ body{
 
 /* PRINT */
 @media print {
-    body { margin: 0; }
+
+    body {
+        margin: 0;
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .section-title {
+        background: #1e3a8a !important;
+        color: white !important;
+    }
+
+    .product-table th {
+        background: #1e3a8a !important;
+        color: white !important;
+    }
+
+    .quote-title {
+        color: #1e3a8a !important;
+    }
+
 }
 
 </style>
@@ -144,7 +165,8 @@ body{
     <!-- COMPANY LEFT -->
     <!-- <div id="companyBlock" class="company-block"></div> -->
 
-    <% if(company && company.include_company){ %>
+
+    <% if(company && (company.include_company === true || company.include_company === 'true')){ %>
 <div class="company-block" style="display:block;">
     <h3><%= company.company_name %></h3>
     <p><%= company.address %></p>
@@ -158,7 +180,7 @@ body{
     <div class="quote-box">
         <div class="quote-title">QUOTATION</div>
 
-        <div class="quote-meta">
+        <div class="quote-meta" style="text-align: left;">
             <p><b>Date:</b> <%= new Date(quotation.date).toLocaleDateString() %></p>
             <p><b>Place:</b> <%= quotation.place %></p>
         </div>

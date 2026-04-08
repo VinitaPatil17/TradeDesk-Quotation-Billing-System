@@ -105,24 +105,64 @@ router.get("/profile", async (req, res) => {
     });
 });
 
-router.get("/user-data", (req, res) => {
+// router.get("/user-data", (req, res) => {
+
+//     if (!req.session.user) {
+//         return res.json({ success: false, message: "Not logged in" });
+//     }
+
+//     res.json({
+//         success: true,
+//         user: req.session.user
+//     });
+
+// });
+
+router.get("/user-data", async (req, res) => {
 
     if (!req.session.user) {
         return res.json({ success: false, message: "Not logged in" });
     }
 
-    res.json({
-        success: true,
-        user: req.session.user
-    });
+    const userId = req.session.user.id;
 
+    try {
+
+        // 🔹 GET USER DATA
+        const user = await pool.query(
+            `SELECT company_name, gst_no, phone, email, address 
+             FROM users 
+             WHERE id = $1`,
+            [userId]
+        );
+
+        // 🔹 GET SETTINGS
+        const settings = await pool.query(
+            `SELECT include_company
+             FROM settings 
+             WHERE user_id = $1`,
+            [userId]
+        );
+
+        res.json({
+            success: true,
+            user: {
+                ...user.rows[0],
+                include_company: settings.rows[0]?.include_company || false
+            }
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.json({ success: false });
+    }
 });
 
 router.post("/settings/update", async (req, res) => {
 
     const userId = req.session.user.id;
 
-    const { company, gst, phone, address, includeCompany, darkMode } = req.body;
+    const { company, gst, phone, address, includeCompany } = req.body;
 
     try {
 
@@ -136,16 +176,24 @@ router.post("/settings/update", async (req, res) => {
 
         // 🔹 2. UPDATE SETTINGS TABLE
         await pool.query(
-            `INSERT INTO settings (user_id, include_company, dark_mode)
-             VALUES ($1, $2, $3)
+            `INSERT INTO settings (user_id, include_company)
+             VALUES ($1, $2)
              ON CONFLICT (user_id)
              DO UPDATE SET
-                include_company = EXCLUDED.include_company,
-                dark_mode = EXCLUDED.dark_mode`,
-            [userId, includeCompany, darkMode]
+                include_company = EXCLUDED.include_company`,
+            [userId, includeCompany]
         );
 
-        res.json({ success: true });
+        // res.json({ success: true });
+
+        req.session.user.company_name = company;
+req.session.user.gst_no = gst;
+req.session.user.phone = phone;
+req.session.user.address = address;
+
+res.json({ success: true });
+
+console.log("Received from frontend:", includeCompany);
 
     } catch (err) {
         console.log(err);

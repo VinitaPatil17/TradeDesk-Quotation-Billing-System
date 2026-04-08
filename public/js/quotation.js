@@ -115,16 +115,6 @@ async function fillLedgerDetails(){
     document.getElementById("place").value = data.city || "";
 }
 async function loadProductsList(){
-
-    // const res = await fetch("/api/products");
-    // const data = await res.json();
-
-    // console.log("Products Loaded:", data);
-
-    // productsList = data.products || [];
-
-    // return productsList; 
-
     try{
         const res = await fetch("/api/products");
         const data = await res.json();
@@ -250,28 +240,59 @@ async function createQuotation(){
 
     // 🔹 PRODUCTS DATA
     const rows = document.querySelectorAll("#quotationProductsBody tr");
+    console.log("TOTAL ROWS:", rows.length);
 
     let products = [];
 
+    // rows.forEach(row => {
+
+    //     const productId = row.querySelector("select").value;
+    //     const weight = row.querySelector(".weight").innerText;
+    //     const qty = row.querySelector("input").value;
+    //     const price = row.querySelector(".price").value;
+    //     const total = row.querySelector(".total").innerText;
+
+    //     if(productId){ // ignore empty rows
+    //         products.push({
+    //             productId : Number(productId),
+    //             weight: Number(weight),
+    // qty: Number(qty),
+    // price: Number(price),
+    // total: Number(total)
+    //         });
+    //     }
+
+    // });
+
     rows.forEach(row => {
 
-        const productId = row.querySelector("select").value;
-        const weight = row.querySelector(".weight").innerText;
-        const qty = row.querySelector("input").value;
-        const price = row.querySelector(".price").innerText;
-        const total = row.querySelector(".total").innerText;
+    const productId = row.querySelector("select").value;
+    const weight = row.querySelector(".weight").innerText;
+    const qty = row.querySelector("input").value;
+    const price = row.querySelector(".price").value;
+    const total = row.querySelector(".total").innerText;
 
-        if(productId){ // ignore empty rows
-            products.push({
-                productId,
-                weight,
-                qty,
-                price,
-                total
-            });
-        }
-
+    console.log("ROW DATA:", {
+        productId,
+        weight,
+        qty,
+        price,
+        total
     });
+
+    if(productId){
+        products.push({
+            productId: Number(productId),
+            weight: Number(weight),
+            qty: Number(qty),
+            price: Number(price),
+            total: Number(total)
+        });
+    }
+
+});
+
+console.log("FINAL PRODUCTS:", products);
 
     // 🔹 OTHER CHARGES & GRAND TOTAL
     const otherCharges = document.getElementById("otherCharges").value || 0;
@@ -344,7 +365,7 @@ data.forEach(q => {
         </div>
 
         <div class="action-menu">
-            <div onclick="viewQuotation(${q.id})" style="text-align: left;">View</div>
+            <div onclick="viewQuotation(${q.id}); event.stopPropagation();" style="text-align: left; console.log('View clicked:', ${q.id})">View</div>
             <div onclick="downloadQuotation(${q.id})" style="text-align: left;" >Download</div>
             <div onclick="editQuotation(${q.id})" style="text-align: left;" >Edit</div>
             <div onclick="deleteQuotation(${q.id})" style="text-align: left;" >Delete</div>
@@ -402,6 +423,7 @@ document.addEventListener("click", function(e){
 });
 
 function viewQuotation(id){
+    console.log("View Clicked ", id);
     window.open(`/api/quotation-view/${id}`, "_blank");
 }
 
@@ -532,12 +554,12 @@ async function updateQuotation(){
         const productId = row.querySelector("select").value;
         const weight = row.querySelector(".weight").innerText;
         const qty = row.querySelector("input").value;
-        const price = row.querySelector(".price").innerText;
+        const price = row.querySelector(".price").value;
         const total = row.querySelector(".total").innerText;
 
         if(productId){
             products.push({
-                productId,
+                productId : Number(productId),
                 weight,
                 qty,
                 price,

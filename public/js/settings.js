@@ -1,3 +1,5 @@
+document.getElementById("saveBtn").addEventListener("click", saveSettings);
+
 function toggleSidebar(){
 const sidebar = document.getElementById("sidebar");
 sidebar.classList.toggle("collapsed");
@@ -28,9 +30,11 @@ async function loadUserSettings(){
             document.getElementById("address").value = data.user.address || "";
 
             // toggles (default false if not present)
-            document.getElementById("includeCompanyToggle").checked = data.user.include_company || false;
-            document.getElementById("darkModeToggle").checked = data.user.dark_mode || false;
+            const includeToggle = document.getElementById("includeCompanyToggle");
 
+if(includeToggle){
+    includeToggle.checked = data.user.include_company || false;
+}
         }
 
     } catch(err){
@@ -79,14 +83,14 @@ async function loadUserSettings(){
 
 async function saveSettings() {
 
+    console.log("SAVE BUTTON CLICKED 🔥"); // debug
+
     const company = document.getElementById("companyName").value;
     const gst = document.getElementById("gst").value;
     const phone = document.getElementById("phone").value;
     const address = document.getElementById("address").value;
 
     const includeCompany = document.getElementById("includeCompanyToggle").checked;
-    const darkMode = document.getElementById("darkModeToggle").checked;
-
     try {
 
         const res = await fetch("/api/settings/update", {
@@ -99,12 +103,15 @@ async function saveSettings() {
                 gst,
                 phone,
                 address,
-                includeCompany,
-                darkMode
+                includeCompany
             })
         });
 
         const data = await res.json();
+
+        console.log("Saving:", {
+    includeCompany
+});
 
         if (data.success) {
             alert("Settings saved successfully ✅");

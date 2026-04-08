@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
-const PDFDocument = require("pdfkit");
+// const PDFDocument = require("pdfkit");
 
 
 // ✅ ADD PRODUCT
@@ -255,10 +255,21 @@ router.get("/quotation-view/:id", async (req, res) => {
             WHERE qi.quotation_id=$1
         `, [id]);
 
+        // const user = await db.query(
+        //     "SELECT company_name, address, gst_no, phone, email, include_company FROM users WHERE id = $1",
+        //     [req.session.userId] 
+        // );
+
         const user = await db.query(
-            "SELECT company_name, address, gst_no, phone, email, include_company FROM users WHERE id = $1",
-            [req.session.userId] // or your user id logic
-        );
+    `SELECT u.company_name, u.address, u.gst_no, u.phone, u.email, 
+            s.include_company
+     FROM users u
+     LEFT JOIN settings s ON u.id = s.user_id
+     WHERE u.id = $1`,
+    [req.session.user.id]
+);
+
+console.log("COMPANY DATA FINAL:", user.rows[0]);
 
         res.render("quotationTemplate", {
             quotation: q.rows[0],
@@ -266,6 +277,9 @@ router.get("/quotation-view/:id", async (req, res) => {
             isDownload: false,
             company: user.rows[0] || {}
         });
+
+        console.log("COMPANY DATA:", user.rows[0]);
+        console.log("ITEMS DATA:", items.rows);
 
     } catch (err) {
         console.log(err);
@@ -294,10 +308,27 @@ router.get("/quotation-pdf/:id", async (req, res) => {
             WHERE qi.quotation_id = $1
         `, [id]);
 
-        const user = await db.query(
-            "SELECT company_name, address, gst_no, phone, email, include_company FROM users WHERE id = $1",
-            [req.session.userId] // or your user id logic
-        );
+        // const user = await db.query(
+        //     "SELECT company_name, address, gst_no, phone, email, include_company FROM users WHERE id = $1",
+        //     [req.session.userId] 
+        // );
+
+const user = await db.query(
+    `SELECT u.company_name, u.address, u.gst_no, u.phone, u.email, 
+            s.include_company
+     FROM users u
+     LEFT JOIN settings s ON u.id = s.user_id
+     WHERE u.id = $1`,
+    [req.session.user.id]
+    
+);
+
+console.log("SESSION USER:", req.session.user);
+console.log("USER ID:", req.session.user.id);
+
+console.log("COMPANY DATA FINAL:", user.rows[0]);
+
+        console.log("COMPANY DATA:", user.rows[0]);
 
         res.render("quotationTemplate", {
             quotation: q.rows[0],
