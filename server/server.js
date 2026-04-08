@@ -9,23 +9,12 @@ const authRoutes = require("./routes/auth");
 
 app.use(express.json());
 
-// app.use(session({
-//     secret: "tradedesk-secret-key", 
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//         secure: false 
-//     }
-// }));
-
-app.set("trust proxy", 1);
-
 app.use(session({
-    secret: process.env.SESSION_SECRET || "tradedesk-secret-key",
+    secret: "tradedesk-secret-key", // 🔐 can be anything
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false // keep false for now (Render handles HTTPS)
+        secure: false // true only in HTTPS
     }
 }));
 
@@ -39,7 +28,9 @@ app.use(express.static("views"));
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
+
+
 
 app.get("/dashboard", isAuthenticated, (req, res) => {
     res.render("dashboard", {activePage:"dashboard"});
@@ -75,8 +66,6 @@ res.render("reset-password",{activePage:"reset-password"});
 const productRoutes = require("./routes/productRoutes");
 app.use("/api", productRoutes);
 
-
-
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-})
+});
