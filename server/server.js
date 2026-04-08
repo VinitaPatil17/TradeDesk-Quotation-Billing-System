@@ -33,6 +33,9 @@ const PORT = process.env.PORT || 3000;
 app.get("/", (req, res) => {
     res.render("welcome"); // or "welcome" whatever your first page is
 });
+app.get("/login",(req,res)=>{
+res.render("login", {activePage:"login"});
+});
 
 app.get("/dashboard", isAuthenticated, (req, res) => {
     res.render("dashboard", {activePage:"dashboard"});
@@ -47,6 +50,10 @@ res.render("ledgers",{activePage:"ledgers"});
 
 app.get("/quotation",(req,res)=>{
 res.render("quotation",{activePage:"quotation"});
+});
+
+app.get("/quotationTemplate",(req,res)=>{
+res.render("quotationTemplate",{activePage:"quotationTemplate"});
 });
 
 app.get("/settings",(req,res)=>{
