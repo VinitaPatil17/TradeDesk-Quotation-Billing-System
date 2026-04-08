@@ -46,7 +46,7 @@ async function loadLedgers(){
 
     try{
 
-        const res = await fetch("/api/ledgers");
+        const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/ledgers");
         const ledgers = await res.json();
 
         console.log("Ledgers Loaded:", ledgers);
@@ -108,7 +108,7 @@ async function fillLedgerDetails(){
 
     if(!ledgerId) return;
 
-    const res = await fetch(`/api/ledger/${ledgerId}`);
+    const res = await fetch(` https://tradedesk-quotation-billing-system.onrender.com/api/ledger/${ledgerId}`);
     const data = await res.json();
 
     document.getElementById("phone").value = data.phone || "";
@@ -116,7 +116,7 @@ async function fillLedgerDetails(){
 }
 async function loadProductsList(){
     try{
-        const res = await fetch("/api/products");
+        const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/products");
         const data = await res.json();
 
         productsList = data; // 🔥 IMPORTANT
@@ -311,7 +311,7 @@ console.log("FINAL PRODUCTS:", products);
 
     try{
 
-    const response = await fetch("/api/create-quotation",{
+    const response = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/create-quotation",{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -338,7 +338,7 @@ async function loadQuotations(){
 
     try{
 
-        const res = await fetch("/api/quotations");
+        const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/quotations");
         const data = await res.json();
 
         const tbody = document.getElementById("quotationBody");
@@ -438,7 +438,7 @@ async function editQuotation(id){
     await loadLedgers();
     await loadProductsList();
 
-    const res = await fetch(`/api/quotation/${id}`);
+    const res = await fetch(` https://tradedesk-quotation-billing-system.onrender.com/api/quotation/${id}`);
     const data = await res.json();
 
     const q = data.quotation;
@@ -513,7 +513,7 @@ async function deleteQuotation(id){
 
     try{
 
-        const res = await fetch(`/api/delete-quotation/${id}`, {
+        const res = await fetch(` https://tradedesk-quotation-billing-system.onrender.com/api/delete-quotation/${id}`, {
             method: "DELETE"
         });
 
@@ -584,7 +584,7 @@ async function updateQuotation(){
 
     try{
 
-        const res = await fetch(`/api/update-quotation/${editingQuotationId}`,{
+        const res = await fetch(` https://tradedesk-quotation-billing-system.onrender.com/api/update-quotation/${editingQuotationId}`,{
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -621,7 +621,7 @@ function getQuotationIdFromURL(){
 async function loadCompanyInfo(){
 
     try{
-        const res = await fetch("/api/company-info", {
+        const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/company-info", {
             credentials: "include"
         });
         const data = await res.json();

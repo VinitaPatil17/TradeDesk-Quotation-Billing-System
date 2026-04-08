@@ -39,7 +39,7 @@ async function register(){
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    const res = await fetch("/api/register", {
+    const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -82,7 +82,7 @@ async function loginUser(){
 
     try {
 
-        const res = await fetch("/api/login", {
+        const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -146,7 +146,7 @@ function closeProfileModal(){
 async function loadProfileData(){
 
     try{
-        const res = await fetch("/api/profile");
+        const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/profile");
         const data = await res.json();
 
         if(data.success){
@@ -193,7 +193,7 @@ function closeLogoutModal(){
 async function loadRecentQuotations(){
 
     try{
-        const res = await fetch("/api/quotations");
+        const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/quotations");
         const data = await res.json();
 
         const tbody = document.getElementById("recentQuotationBody");
@@ -242,7 +242,7 @@ function setLastUpdated(){
 async function loadHeaderCompany(){
 
     try{
-        const res = await fetch("/api/profile");
+        const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/profile");
         const data = await res.json();
 
         if(data.success){

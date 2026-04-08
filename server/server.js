@@ -23,12 +23,16 @@ app.use("/api", authRoutes);
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static("public"));
-app.use(express.static("views"));
+//app.use(express.static("views"));
 
 app.set("view engine", "ejs");
 app.set("views", "views");
 
 const PORT = process.env.PORT || 3000;
+
+app.get("/", (req, res) => {
+    res.render("welcome.html"); // or "welcome" whatever your first page is
+});
 
 app.get("/dashboard", isAuthenticated, (req, res) => {
     res.render("dashboard", {activePage:"dashboard"});

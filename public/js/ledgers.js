@@ -116,7 +116,7 @@ async function saveLedger(){
     }
 
         // 👉 EDIT MODE
-        await fetch("/api/update-ledger", {
+        await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/update-ledger", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -153,7 +153,7 @@ async function saveLedger(){
     }
 
         // 👉 CREATE MODE
-        await fetch("/api/add-ledger", {
+        await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/add-ledger", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -183,7 +183,7 @@ async function saveLedger(){
 // LOAD LEDGERS
 async function loadLedgers(){
 
-    const res = await fetch("/api/ledgers");
+    const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/ledgers");
     const ledgers = await res.json();
 
     const table = document.getElementById("ledgerBody");
@@ -269,7 +269,7 @@ async function updateLedgerField(id, field, value){
 
     console.log("Updating Ledger:", id, field, value);
 
-    const res = await fetch("/api/update-ledger-field",{
+    const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/update-ledger-field",{
 
         method:"POST",
 
@@ -300,7 +300,7 @@ async function fillLedgerDetails(){
 
     try{
 
-        const res = await fetch(`/api/ledger/${ledgerId}`);
+        const res = await fetch(` https://tradedesk-quotation-billing-system.onrender.com/api/ledger/${ledgerId}`);
         const data = await res.json();
 
         console.log("Ledger Data:", data); // 🔥 DEBUG
@@ -397,7 +397,7 @@ async function bulkDelete(){
 
     try{
 
-        const res = await fetch("/api/delete-multiple-ledgers",{
+        const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/delete-multiple-ledgers",{
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -443,7 +443,7 @@ async function editLedger(id){
     editLedgerId = id;
 
     // 🔹 Fetch ledger data
-    const res = await fetch(`/api/ledger/${id}`);
+    const res = await fetch(` https://tradedesk-quotation-billing-system.onrender.com/api/ledger/${id}`);
     const data = await res.json();
 
     // 🔹 Open modal
