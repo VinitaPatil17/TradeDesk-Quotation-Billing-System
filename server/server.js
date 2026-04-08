@@ -31,7 +31,7 @@ app.set("views", "views");
 const PORT = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
-    res.render("welcome.html"); // or "welcome" whatever your first page is
+    res.render("welcome"); // or "welcome" whatever your first page is
 });
 
 app.get("/dashboard", isAuthenticated, (req, res) => {
