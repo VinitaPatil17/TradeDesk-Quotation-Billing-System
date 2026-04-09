@@ -201,7 +201,8 @@ function calculateRow(element){
     const qty = row.querySelector("input").value;
     const price = row.querySelector(".price").value;
 
-    const total = qty * price;
+    const total =  parseFloat((qty * price).toFixed(2));
+   
 
     row.querySelector(".total").innerText = total;
 
@@ -217,7 +218,11 @@ function calculateGrandTotal(){
 
     const other = Number(document.getElementById("otherCharges").value) || 0;
 
-    document.getElementById("grandTotal").innerText = sum + other;
+    // document.getElementById("grandTotal").innerText = sum + other;
+
+    const grandTotal = sum + other;
+
+    document.getElementById("grandTotal").innerText = Math.round(grandTotal);
 }
 function removeRow(btn){
     btn.closest("tr").remove();
