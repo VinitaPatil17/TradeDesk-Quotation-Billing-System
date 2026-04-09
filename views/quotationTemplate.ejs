@@ -244,7 +244,7 @@ body{
 
 <tr>
 <td>Amount</td>
-<td><%= quotation.grand_total - quotation.other_charges %></td>
+<td><%= Math.round(quotation.grand_total - quotation.other_charges) %></td>
 </tr>
 
 <tr>
