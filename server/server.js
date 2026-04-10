@@ -14,13 +14,16 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false // true only in HTTPS
+        secure: true // true only in HTTPS
     }
 }));
 
 app.use("/api", authRoutes);
 
-app.use(cors());
+app.use(cors({
+    origin: "https://tradedesk.co.in",
+    credentials: true
+}));
 app.use(bodyParser.json());
 app.use(express.static("public"));
 //app.use(express.static("views"));
