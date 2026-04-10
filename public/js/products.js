@@ -60,7 +60,7 @@ async function deleteProduct(id){
 
     if(!confirmDelete) return;
 
-    const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/delete-product", {
+    const res = await fetch("/api/delete-product", {
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -78,7 +78,7 @@ async function deleteProduct(id){
 
 async function loadProducts(){
 
-    const products = await (await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/products")).json();
+    const products = await (await fetch("/api/products")).json();
 
     const table = document.getElementById("productsBody");
     table.innerHTML = "";
@@ -187,7 +187,7 @@ async function deleteSelected(){
         ids.push(cb.value);
     });
 
-    const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/delete-multiple-products", {
+    const res = await fetch("/api/delete-multiple-products", {
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -223,7 +223,7 @@ document.addEventListener("click", () => {
 
 async function editProduct(id){
 
-    const res = await fetch(` https://tradedesk-quotation-billing-system.onrender.com/api/products/${id}`);
+    const res = await fetch(`/api/products/${id}`);
     const data = await res.json();
 
     const p = data.product;
@@ -263,7 +263,7 @@ async function updateProductField(productId, field, value){
 
 console.log("Updating product:", productId, field, value);
 
-const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/update-product-field",{
+const res = await fetch("/api/update-product-field",{
 
 method:"POST",
 

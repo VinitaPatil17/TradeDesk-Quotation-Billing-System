@@ -18,7 +18,7 @@ function cancelEdit(){
 async function loadUserSettings(){
 
     try {
-        const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/user-data");
+        const res = await fetch("/api/user-data");
         const data = await res.json();
 
         if(data.success){
@@ -93,7 +93,7 @@ async function saveSettings() {
     const includeCompany = document.getElementById("includeCompanyToggle").checked;
     try {
 
-        const res = await fetch(" https://tradedesk-quotation-billing-system.onrender.com/api/settings/update", {
+        const res = await fetch("/api/settings/update", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

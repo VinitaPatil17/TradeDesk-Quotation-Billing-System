@@ -3,6 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const app = express();
+app.set("trust proxy", 1);
 const isAuthenticated = require("./middleware/authMiddleware");
 
 const authRoutes = require("./routes/auth");
@@ -14,7 +15,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: true // true only in HTTPS
+        secure: true, // true only in HTTPS
+        sameSite: "none"
     }
 }));
 
