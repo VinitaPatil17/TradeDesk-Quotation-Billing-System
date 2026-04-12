@@ -49,7 +49,42 @@ async function loadStates(){
     }
 }
 
+// async function loadCities(){
+
+//     console.log("loadCities called 🔥"); // 👈 add this
+
+//     const stateCode = document.getElementById("state").value;
+
+//     if(!stateCode) return;
+
+//     try{
+//         const res = await fetch(`/api/cities/${stateCode}`);
+//         const cities = await res.json();
+
+//         const citySelect = document.getElementById("city");
+
+//         citySelect.innerHTML = `<option value="">Select City</option>`;
+
+//         if(!stateCode){
+//     document.getElementById("city").innerHTML = `<option value="">Select State First</option>`;
+//     return;
+// }
+
+//         cities.forEach(c => {
+//             citySelect.innerHTML += `
+//                 <option value="${c.name}">
+//                     ${c.name}
+//                 </option>
+//             `;
+//         });
+
+//     }catch(err){
+//         console.log("Error loading cities:", err);
+//     }
+// }
+
 async function loadCities(){
+    console.log("loadCities called 🔥"); // 👈 add this
     const stateCode = document.getElementById("state").value;
 
     if(!stateCode) return;
@@ -58,14 +93,11 @@ async function loadCities(){
         const res = await fetch(`/api/cities/${stateCode}`);
         const cities = await res.json();
 
-        // const citySelect = document.getElementById("city");
+        console.log("Cities API response:", cities); // 👈 IMPORTANT
 
-        // citySelect.innerHTML = `<option value="">Select City</option>`;
+        const citySelect = document.getElementById("city");
 
-        if(!stateCode){
-    document.getElementById("city").innerHTML = `<option value="">Select State First</option>`;
-    return;
-}
+        citySelect.innerHTML = `<option value="">Select City</option>`;
 
         cities.forEach(c => {
             citySelect.innerHTML += `
