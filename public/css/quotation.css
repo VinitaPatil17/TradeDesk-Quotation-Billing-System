@@ -31,9 +31,14 @@
 
 /* TABLE */
 
-.table-wrapper{
+.table-container {
     width: 100%;
     overflow-x: auto;
+}
+.table-wrapper{
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 .products-table {
     width: 100%;
