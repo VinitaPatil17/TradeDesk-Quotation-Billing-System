@@ -255,14 +255,14 @@ background:#2b0b5a;
 background:#2b0b5a;
 }
 
-#sidebar {
+/* #sidebar {
     position: fixed;
     left: -250px;
 }
 
 #sidebar.active {
     left: 0;
-}
+} */
 
 /* .sidebar-overlay {
     position: fixed;
