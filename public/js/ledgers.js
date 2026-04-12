@@ -38,7 +38,7 @@ async function loadStates(){
 
         states.forEach(s => {
             stateSelect.innerHTML += `
-                <option value="${s.isoCode}">
+                <option value="${s.isoCode}" data-name="${s.name}">
                     ${s.name}
                 </option>
             `;
@@ -140,7 +140,9 @@ async function saveLedger(){
 
     const name = document.getElementById("name").value;
     const gst = document.getElementById("gst").value;
-    const state = document.getElementById("state").value;
+    const stateSelect = document.getElementById("state");
+    const stateCode = stateSelect.value;
+    const stateName = stateSelect.options[stateSelect.selectedIndex].getAttribute("data-name");
     const city = document.getElementById("city").value;
     const phone = document.getElementById("phone").value;
 
@@ -174,7 +176,8 @@ async function saveLedger(){
                 id: editLedgerId,
                 name,
                 gst,
-                state,
+                state: stateCode,
+                stateName: stateName,
                 city,
                 phone
             })
@@ -210,7 +213,8 @@ async function saveLedger(){
             body: JSON.stringify({
                 name,
                 gst,
-                state,
+                state: stateCode,
+                stateName: stateName,
                 city,
                 phone
             })
@@ -249,7 +253,7 @@ async function loadLedgers(){
 
     <td>${l.name}</td>
     <td>${l.gst_no || ""}</td>
-    <td>${l.state || ""}</td>
+    <td>${l.stateName || ""}</td>
     <td>${l.city || ""}</td>
     <td>${l.phone || ""}</td>
 
@@ -497,6 +501,8 @@ async function editLedger(id){
 
     // 🔹 Open modal
     document.getElementById("ledgerModal").style.display = "flex";
+
+    await loadStates();
 
     // 🔹 Prefill fields
     document.getElementById("name").value = data.name || "";
