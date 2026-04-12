@@ -242,11 +242,17 @@ router.get("/quotation-view/:id", async (req, res) => {
     try {
 
         const q = await db.query(`
-            SELECT q.*, l.name AS ledger_name
-            FROM quotations q
-            JOIN ledgers l ON q.ledger_id = l.id
-            WHERE q.id=$1
-        `, [id]);
+    SELECT 
+        q.*, 
+        l.name AS ledger_name,
+        l.gst_no,
+        l.state,
+        l.city,
+        l.phone AS ledger_phone
+    FROM quotations q
+    JOIN ledgers l ON q.ledger_id = l.id
+    WHERE q.id=$1
+`, [id]);
 
         const items = await db.query(`
             SELECT qi.*, p.products_description
@@ -290,11 +296,17 @@ router.get("/quotation-pdf/:id", async (req, res) => {
     try {
 
         const q = await db.query(`
-            SELECT q.*, l.name AS ledger_name
-            FROM quotations q
-            JOIN ledgers l ON q.ledger_id = l.id
-            WHERE q.id = $1
-        `, [id]);
+    SELECT 
+        q.*, 
+        l.name AS ledger_name,
+        l.gst_no,
+        l.state,
+        l.city,
+        l.phone AS ledger_phone
+    FROM quotations q
+    JOIN ledgers l ON q.ledger_id = l.id
+    WHERE q.id=$1
+`, [id]);
 
         const items = await db.query(`
             SELECT qi.*, p.products_description

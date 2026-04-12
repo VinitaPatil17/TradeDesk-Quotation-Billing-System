@@ -21,6 +21,8 @@ async function openModal(){
     document.getElementById("ledgerSelect").value = "";
     document.getElementById("phone").value = "";
     document.getElementById("place").value = "";
+    document.getElementById("state").value = "";
+document.getElementById("gst").value = "";
     document.getElementById("otherCharges").value = "";
     document.getElementById("grandTotal").innerText = "0";
 
@@ -125,7 +127,9 @@ async function fillLedgerDetails(){
     const data = await res.json();
 
     document.getElementById("phone").value = data.phone || "";
-    document.getElementById("place").value = data.city || "";
+document.getElementById("place").value = data.city || "";
+document.getElementById("gst").value = data.gst_no || "";
+document.getElementById("state").value = data.state || "";
 }
 async function loadProductsList(){
     try{
@@ -502,6 +506,14 @@ async function editQuotation(id){
     document.getElementById("date").value = q.date.split("T")[0];
 
     document.getElementById("otherCharges").value = q.other_charges;
+
+    // ✅ ✅ ✅ ADD THIS BLOCK RIGHT HERE 👇
+    const ledgerRes = await fetch(`/api/ledger/${q.ledger_id}`);
+    const ledgerData = await ledgerRes.json();
+
+    document.getElementById("gst").value = ledgerData.gst_no || "";
+    document.getElementById("state").value = ledgerData.state || "";
+    // ✅ ✅ ✅ END HERE
 
     // 🔹 CLEAR OLD ROWS
     const tbody = document.getElementById("quotationProductsBody");
