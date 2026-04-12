@@ -264,7 +264,7 @@ background:#2b0b5a;
     left: 0;
 }
 
-.sidebar-overlay {
+/* .sidebar-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -275,7 +275,7 @@ background:#2b0b5a;
 }
 .sidebar-overlay.active {
     display: block;
-}
+} */
 
 /* Mobile behavior */
 /* @media (max-width: 768px) {
