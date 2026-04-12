@@ -121,9 +121,10 @@ select {
 .form-row {
     display: flex;
     gap: 15px;
+    flex-wrap: wrap;
 }
 .form-row .form-group {
-    flex: 1;
+    flex: 1 1 48%;
 }
 .form-group label {
     font-size: 13px;
@@ -136,6 +137,7 @@ select {
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     background: #f8fafc;
+    box-sizing: border-box;
 }
 .modal-content input:focus,
 .modal-content select:focus {
