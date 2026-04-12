@@ -7,7 +7,13 @@ sidebar.classList.toggle("collapsed");
 
 function enableEdit(){
     document.querySelectorAll(".settings-grid input")
-        .forEach(input => input.disabled = false);
+        .forEach(input => {
+            if(input.id !== "setEmail"){   // 🚫 exclude email
+                input.disabled = false;
+            }
+        });
+
+        document.getElementById("saveBtn").disabled = false; // enable save
 }
 
 function cancelEdit(){
@@ -43,44 +49,6 @@ if(includeToggle){
 
 }
 
-// async function saveSettings(){
-
-//     const company = document.getElementById("company").value;
-//     const gst = document.getElementById("gst").value;
-//     const phone = document.getElementById("phone").value;
-
-//     const includeDetails = document.getElementById("includeDetails").checked;
-//     const darkMode = document.getElementById("darkMode").checked;
-
-//     try {
-
-//         const res = await fetch("/api/update-user", {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify({
-//                 company,
-//                 gst,
-//                 phone,
-//                 includeDetails,
-//                 darkMode
-//             })
-//         });
-
-//         const data = await res.json();
-
-//         if(data.success){
-//             alert("Settings Saved ✅");
-//         } else {
-//             alert(data.message);
-//         }
-
-//     } catch(err){
-//         console.log("Save error:", err);
-//     }
-// }
-
 async function saveSettings() {
 
     console.log("SAVE BUTTON CLICKED 🔥"); // debug
@@ -115,6 +83,7 @@ async function saveSettings() {
 
         if (data.success) {
             alert("Settings saved successfully ✅");
+            location.reload();
         } else {
             alert(data.message);
         }

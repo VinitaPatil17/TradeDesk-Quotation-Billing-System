@@ -666,20 +666,6 @@ width: 100%;
 .save-btn:hover {
     background: #ed6815;
 }
-
-/* .cancel-btn {
-    background: #e2e8f0;
-    border: none;
-    padding: 11px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-.cancel-btn:hover {
-    background: #cbd5e1;
-} */
-/* ===== TOGGLE SWITCH ===== */
-
 .toggle-row {
     display: flex;
     justify-content: space-between;
