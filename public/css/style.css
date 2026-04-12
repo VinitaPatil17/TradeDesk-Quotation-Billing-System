@@ -234,23 +234,29 @@ background:#2b0b5a;
 background:#2b0b5a;
 }
 
+#sidebar {
+    width: 250px;
+    transition: 0.3s;
+}
+
+/* Mobile behavior */
 @media (max-width: 768px) {
+
     #sidebar {
         position: fixed;
-        left: -250px;
+        left: -250px; /* hidden */
         top: 0;
         height: 100%;
-        width: 250px;
-        transition: 0.3s;
         z-index: 1000;
+        background: #0b0b2e; /* your sidebar color */
     }
 
     #sidebar.active {
-        left: 0;
+        left: 0; /* show sidebar */
     }
 
     .main-content {
-        margin-left: 0;
+        width: 100%;
     }
 }
 
