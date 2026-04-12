@@ -255,11 +255,6 @@ router.get("/quotation-view/:id", async (req, res) => {
             WHERE qi.quotation_id=$1
         `, [id]);
 
-        // const user = await db.query(
-        //     "SELECT company_name, address, gst_no, phone, email, include_company FROM users WHERE id = $1",
-        //     [req.session.userId] 
-        // );
-
         const user = await db.query(
     `SELECT u.company_name, u.address, u.gst_no, u.phone, u.email, 
             s.include_company
@@ -307,11 +302,6 @@ router.get("/quotation-pdf/:id", async (req, res) => {
             JOIN products p ON qi.product_id = p.id
             WHERE qi.quotation_id = $1
         `, [id]);
-
-        // const user = await db.query(
-        //     "SELECT company_name, address, gst_no, phone, email, include_company FROM users WHERE id = $1",
-        //     [req.session.userId] 
-        // );
 
 const user = await db.query(
     `SELECT u.company_name, u.address, u.gst_no, u.phone, u.email, 

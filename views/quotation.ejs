@@ -111,6 +111,10 @@
 </table>
 </div>
 
+<button onclick="openProductModalFromQuotation()" class="new-product-btn">
++ Create Product
+</button>
+
 <button onclick="addRow()" class="new-product-btn">
 + Add Row
 </button>
@@ -134,6 +138,33 @@ Total: ₹ <span id="grandTotal">0</span>
 </div>
 
 </div>
+</div>
+
+<!-- PRODUCT MODAL (REUSED) -->
+<div class="modal" id="productModal">
+    <div class="modal-content">
+        <h3>Enter Product Details</h3>
+
+        <div class="form-group">
+            <label>Product Description</label>
+            <input id="desc" type="text" placeholder="Enter product name">
+        </div>
+
+        <div class="form-group">
+            <label>Weight</label>
+            <input id="weight" type="text" placeholder="e.g. 10kg">
+        </div>
+
+        <div class="form-group">
+            <label>Unit Price</label>
+            <input id="price" type="text" placeholder="e.g. ₹500">
+        </div>
+
+        <div class="modal-actions">
+            <button class="cancel-btn" onclick="closeProductModal()">Cancel</button>
+            <button class="save-btn" onclick="saveProductFromQuotation()">Save</button>
+        </div>
+    </div>
 </div>
 
 <script src="/js/quotation.js"></script>

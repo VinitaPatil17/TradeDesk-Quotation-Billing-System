@@ -107,6 +107,10 @@ select {
     z-index: 9999;
 }
 
+#productModal {
+    z-index: 2000;
+}
+
 /* FORM */
 .form-group {
     display: flex;

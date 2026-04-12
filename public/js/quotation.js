@@ -35,6 +35,19 @@ function closeModal(){
     document.getElementById("quotationModal").style.display = "none";
 }
 
+function openProductModalFromQuotation(){
+    document.getElementById("productModal").style.display = "flex";
+
+    // clear fields
+    document.getElementById("desc").value = "";
+    document.getElementById("weight").value = "";
+    document.getElementById("price").value = "";
+}
+
+function closeProductModal(){
+    document.getElementById("productModal").style.display = "none";
+}
+
 // ✅ Set today's date
 function setTodayDate(){
     const today = new Date().toISOString().split("T")[0];
@@ -178,6 +191,53 @@ function addRow(){
     tbody.appendChild(row);
     console.log("Products Lists:", productsList);
 }
+
+async function saveProductFromQuotation(){
+
+    const description = document.getElementById("desc").value;
+    const weight = document.getElementById("weight").value;
+    const price = document.getElementById("price").value;
+
+    if(!description){
+        alert("Enter product description");
+        return;
+    }
+
+    try{
+
+        const res = await fetch("/api/add-product", {
+            method: "POST",
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                description,
+                weight,
+                price
+            })
+        });
+
+        const data = await res.json();
+
+        if(data.success){
+
+            alert("Product Created ✅");
+
+            closeProductModal();
+
+            // 🔥 RELOAD PRODUCT LIST
+            await loadProductsList();
+
+            // 🔥 OPTIONAL: Auto-select newly added product (advanced later)
+
+        }
+
+    }catch(err){
+        console.log(err);
+        alert("Error saving product ❌");
+    }
+}
+
 function onProductSelect(select){
 
     const productId = select.value;
@@ -248,26 +308,6 @@ async function createQuotation(){
     console.log("TOTAL ROWS:", rows.length);
 
     let products = [];
-
-    // rows.forEach(row => {
-
-    //     const productId = row.querySelector("select").value;
-    //     const weight = row.querySelector(".weight").innerText;
-    //     const qty = row.querySelector("input").value;
-    //     const price = row.querySelector(".price").value;
-    //     const total = row.querySelector(".total").innerText;
-
-    //     if(productId){ // ignore empty rows
-    //         products.push({
-    //             productId : Number(productId),
-    //             weight: Number(weight),
-    // qty: Number(qty),
-    // price: Number(price),
-    // total: Number(total)
-    //         });
-    //     }
-
-    // });
 
     rows.forEach(row => {
 
