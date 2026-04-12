@@ -1,3 +1,8 @@
+input, select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .products-section {
     padding: 30px;
     background: #f8fafc;
@@ -36,9 +41,11 @@
     overflow-x: auto;
 }
 .table-wrapper{
-    max-height: 300px;
+    width: 100%;
+    overflow-x: auto;
+    /* max-height: 300px;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: hidden; */
 }
 .products-table {
     width: 100%;
@@ -100,7 +107,8 @@
 }
 .modal-content {
     background: white;
-    width: 700px;
+    width: 90%;
+    max-width: 800px;
     max-height: 90vh;
     overflow: visible !important;
     padding: 30px;
@@ -151,6 +159,12 @@ select {
     background: white;
 }
 
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+    }
+}
+
 #quotationProductsTable th:nth-child(1) { width: 30%; } /* Product */
 #quotationProductsTable th:nth-child(2) { width: 15%; } /* Weight */
 #quotationProductsTable th:nth-child(3) { width: 15%; } /* Qty */
@@ -175,6 +189,13 @@ select {
     display: flex;
     align-items: center;
 }
+
+@media (max-width: 768px) {
+    .total-box {
+        text-align: left;
+        margin-top: 10px;
+    }
+}
 /* BUTTONS */
 
 .modal-actions {
@@ -183,6 +204,32 @@ select {
     gap: 10px;
     margin-top: 20px;
 }
+
+@media (max-width: 768px) {
+    .modal-actions {
+        flex-direction: column;
+    }
+
+    .modal-actions button {
+        width: 100%;
+    }
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+@media (max-width: 768px) {
+    .btn-group {
+        flex-direction: column;
+    }
+
+    .btn-group button {
+        width: 100%;
+    }
+}
+
 .cancel-btn {
     background: #e2e8f0;
     padding: 8px 14px;
