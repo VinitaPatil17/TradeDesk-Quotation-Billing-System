@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
+const { State, City } = require("country-state-city");
 // const PDFDocument = require("pdfkit");
 
 
@@ -152,6 +153,32 @@ router.post("/update-ledger", async (req, res) => {
         res.status(500).json({ success: false });
     }
 
+});
+
+// GET ALL STATES
+router.get("/states", (req, res) => {
+    try {
+        const states = State.getStatesOfCountry("IN");
+
+        res.json(states);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Error fetching states" });
+    }
+});
+
+// GET CITIES BY STATE
+router.get("/cities/:stateCode", (req, res) => {
+    try {
+        const { stateCode } = req.params;
+
+        const cities = City.getCitiesOfState("IN", stateCode);
+
+        res.json(cities);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Error fetching cities" });
+    }
 });
 
 // GET single ledger (for autofill)

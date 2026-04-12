@@ -1,17 +1,6 @@
 let selectedIds =[];
 let editLedgerId = null;
 
-const stateCityData = {
-    "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Nashik", "Aurangabad"],
-    "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot"],
-    "Karnataka": ["Bangalore", "Mysore", "Mangalore"],
-    "Delhi": ["New Delhi"],
-    "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai"],
-    "Rajasthan": ["Jaipur", "Udaipur", "Jodhpur"],
-    "Uttar Pradesh": ["Lucknow", "Kanpur", "Varanasi"],
-    "Madhya Pradesh": ["Indore", "Bhopal", "Gwalior"]
-};
-
 function toggleSidebar(){
     const sidebar = document.getElementById("sidebar");
     sidebar.classList.toggle("collapsed");
@@ -38,28 +27,56 @@ function openModal(){
     document.getElementById("saveLedgerBtn").innerText = "Create";
 }
 
-function loadStates(){
+async function loadStates(){
+    try{
+        const res = await fetch("/api/states");
+        const states = await res.json();
 
-    const stateSelect = document.getElementById("state");
+        const stateSelect = document.getElementById("state");
 
-    stateSelect.innerHTML = `<option value="">Select State</option>`;
+        stateSelect.innerHTML = `<option value="">Select State</option>`;
 
-    Object.keys(stateCityData).forEach(state => {
-        stateSelect.innerHTML += `<option value="${state}">${state}</option>`;
-    });
+        states.forEach(s => {
+            stateSelect.innerHTML += `
+                <option value="${s.isoCode}">
+                    ${s.name}
+                </option>
+            `;
+        });
+
+    }catch(err){
+        console.log("Error loading states:", err);
+    }
 }
 
-function loadCities(){
+async function loadCities(){
+    const stateCode = document.getElementById("state").value;
 
-    const state = document.getElementById("state").value;
-    const citySelect = document.getElementById("city");
+    if(!stateCode) return;
 
-    citySelect.innerHTML = `<option value="">Select City</option>`;
+    try{
+        const res = await fetch(`/api/cities/${stateCode}`);
+        const cities = await res.json();
 
-    if(stateCityData[state]){
-        stateCityData[state].forEach(city => {
-            citySelect.innerHTML += `<option value="${city}">${city}</option>`;
+        // const citySelect = document.getElementById("city");
+
+        // citySelect.innerHTML = `<option value="">Select City</option>`;
+
+        if(!stateCode){
+    document.getElementById("city").innerHTML = `<option value="">Select State First</option>`;
+    return;
+}
+
+        cities.forEach(c => {
+            citySelect.innerHTML += `
+                <option value="${c.name}">
+                    ${c.name}
+                </option>
+            `;
         });
+
+    }catch(err){
+        console.log("Error loading cities:", err);
     }
 }
 
@@ -443,7 +460,7 @@ async function editLedger(id){
     editLedgerId = id;
 
     // 🔹 Fetch ledger data
-    const res = await fetch(` https://tradedesk-quotation-billing-system.onrender.com/api/ledger/${id}`);
+    const res = await fetch(`/api/ledger/${id}`);
     const data = await res.json();
 
     // 🔹 Open modal
@@ -453,7 +470,7 @@ async function editLedger(id){
     document.getElementById("name").value = data.name || "";
     document.getElementById("gst").value = data.gst_no || "";
     document.getElementById("state").value = data.state || "";
-    loadCities(); // 🔥 load cities after setting state
+    await loadCities(); // 🔥 load cities after setting state
     document.getElementById("city").value = data.city || "";
     document.getElementById("phone").value = data.phone || "";
 
