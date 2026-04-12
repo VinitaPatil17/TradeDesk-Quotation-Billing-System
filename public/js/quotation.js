@@ -545,7 +545,10 @@ async function editQuotation(id){
             <input type="number" value="${item.qty}" oninput="calculateRow(this)">
         </td>
 
-        <td class="price">${item.price}</td>
+        <td>
+    <input type="number" class="price" value="${item.price}" 
+        oninput="calculateRow(this)">
+</td>
 
         <td class="total">${item.total}</td>
 
@@ -557,6 +560,10 @@ async function editQuotation(id){
         tbody.appendChild(row);
 
     });
+
+    document.querySelectorAll("#quotationProductsBody tr").forEach(row => {
+    calculateRow(row.querySelector("input"));
+});
 
     // 🔥 RECALCULATE TOTAL
     calculateGrandTotal();
