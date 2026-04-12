@@ -1,22 +1,22 @@
 function goToLogin(){
-window.location.href = "/login.html";
+window.location.href = "/login";
 }
 function goBack(){
-window.location.href = "/welcome.html";
+window.location.href = "/welcome";
 }
 function goToLogin(){
-window.location.href = "/login.html";
+window.location.href = "/login";
 }
 
 function goToOTP(){
-window.location.href = "/otp-verification.html";
+window.location.href = "/otp-verification";
 }
 function goToForgotEmail(){
-window.location.href = "/forgot-email.html";
+window.location.href = "/forgot-email";
 }
 
 function goToReset(){
-window.location.href = "/reset-password.html";
+window.location.href = "/reset-password";
 }
 
 function sendOTP(){
@@ -24,7 +24,7 @@ alert("OTP sent to your email (demo)");
 }
 function resetPassword(){
 alert("Password reset successful!");
-window.location.href = "/login.html";
+window.location.href = "/login";
 }
 function toggleSidebar(){
 const sidebar = document.getElementById("sidebar");
