@@ -167,7 +167,7 @@ async function saveLedger(){
     }
 
         // 👉 EDIT MODE
-        await fetch(" /api/update-ledger", {
+        await fetch("/api/update-ledger", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -205,7 +205,7 @@ async function saveLedger(){
     }
 
         // 👉 CREATE MODE
-        await fetch(" /api/add-ledger", {
+        await fetch("/api/add-ledger", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -253,7 +253,7 @@ async function loadLedgers(){
 
     <td>${l.name}</td>
     <td>${l.gst_no || ""}</td>
-    <td>${l.stateName || ""}</td>
+    <td>${l.stateName ||l.state || ""}</td>
     <td>${l.city || ""}</td>
     <td>${l.phone || ""}</td>
 
@@ -269,6 +269,7 @@ async function loadLedgers(){
     </tr>
     `;
 });
+console.log(ledgers);
 
 }
 
