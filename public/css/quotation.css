@@ -30,6 +30,11 @@
 }
 
 /* TABLE */
+
+.table-wrapper{
+    width: 100%;
+    overflow-x: auto;
+}
 .products-table {
     width: 100%;
     border-collapse: collapse;
@@ -97,11 +102,7 @@
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
-.table-wrapper{
-    max-height: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
+
 select {
     position: relative;
     z-index: 9999;
