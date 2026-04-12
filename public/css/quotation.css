@@ -104,6 +104,8 @@ input, select {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    padding: 10px;
+    overflow-y: auto;
 }
 .modal-content {
     background: white;
