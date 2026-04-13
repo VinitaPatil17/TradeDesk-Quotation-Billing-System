@@ -299,8 +299,26 @@ router.get("/quotation-view/:id", async (req, res) => {
 
 console.log("COMPANY DATA FINAL:", user.rows[0]);
 
+        // res.render("quotationTemplate", {
+        //     quotation: q.rows[0],
+        //     items: items.rows,
+        //     isDownload: false,
+        //     company: user.rows[0] || {}
+        // });
+
+        const states = State.getStatesOfCountry("IN");
+        const stateMap = {};
+
+        states.forEach(s => {
+            stateMap[s.isoCode] = s.name;
+        });
+
+// 🔥 Convert state before sending
+        let quotationData = q.rows[0];
+        quotationData.state = stateMap[quotationData.state] || quotationData.state;
+
         res.render("quotationTemplate", {
-            quotation: q.rows[0],
+            quotation: quotationData,
             items: items.rows,
             isDownload: false,
             company: user.rows[0] || {}
@@ -359,12 +377,29 @@ console.log("COMPANY DATA FINAL:", user.rows[0]);
 
         console.log("COMPANY DATA:", user.rows[0]);
 
-        res.render("quotationTemplate", {
-            quotation: q.rows[0],
-            items: items.rows,
-            isDownload: true,
-            company: user.rows[0] || {}
-        });
+        // res.render("quotationTemplate", {
+        //     quotation: q.rows[0],
+        //     items: items.rows,
+        //     isDownload: true,
+        //     company: user.rows[0] || {}
+        // });
+
+        const states = State.getStatesOfCountry("IN");
+const stateMap = {};
+
+states.forEach(s => {
+    stateMap[s.isoCode] = s.name;
+});
+
+let quotationData = q.rows[0];
+quotationData.state = stateMap[quotationData.state] || quotationData.state;
+
+res.render("quotationTemplate", {
+    quotation: quotationData,
+    items: items.rows,
+    isDownload: true,
+    company: user.rows[0] || {}
+});
 
     } catch (err) {
         console.log(err);
