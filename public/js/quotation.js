@@ -395,11 +395,20 @@ console.log("FINAL PRODUCTS:", products);
     const data = await response.json();
 
     if(data.success){
-        alert("Quotation Saved ✅");
-        console.log("Quotation ID:", data.quotationId);
+
+    alert("Quotation Saved ✅");
+
+    // 🔹 Close modal first
+    closeModal();
+
+    // 🔹 Refresh table without reload
+    await loadQuotations();
+
+    // 🔹 THEN open quotation (optional)
+    setTimeout(() => {
         window.open(`/api/quotation-view/${data.quotationId}`, "_blank");
-        location.reload();
-    }
+    }, 300);
+}
 
 }catch(err){
     console.log(err);
