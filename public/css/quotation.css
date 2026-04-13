@@ -39,6 +39,7 @@ input, select {
 .table-container {
     width: 100%;
     overflow-x: auto;
+    overflow-y: visible;
 }
 .table-wrapper{
     width: 100%;

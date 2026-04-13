@@ -1,6 +1,8 @@
 let editingQuotationId = null;
 let selectedQuotationId = null;
 let productsList = [];
+let stateMap = {};
+
 function toggleSidebar(){
     const sidebar = document.getElementById("sidebar");
     sidebar.classList.toggle("collapsed");
@@ -10,6 +12,7 @@ async function openModal(){
 
     editingQuotationId = null; // 🔹 Create mode
 
+    await loadStates();
     await loadLedgers();
     await loadProductsList();
 
@@ -84,6 +87,22 @@ async function loadLedgers(){
     }
 }
 
+async function loadStates(){
+    try{
+        const res = await fetch("/api/states");
+        const states = await res.json();
+
+        stateMap = {};
+
+        states.forEach(s => {
+            stateMap[s.isoCode] = s.name;
+        });
+
+    }catch(err){
+        console.log("Error loading states:", err);
+    }
+}
+
 function searchQuotations(){
 
     const input = document.getElementById("searchInput").value.toLowerCase();
@@ -129,7 +148,7 @@ async function fillLedgerDetails(){
     document.getElementById("phone").value = data.phone || "";
 document.getElementById("place").value = data.city || "";
 document.getElementById("gst").value = data.gst_no || "";
-document.getElementById("state").value = data.state || "";
+document.getElementById("state").value = stateMap[data.state] || data.state || "";
 }
 async function loadProductsList(){
     try{
@@ -174,7 +193,10 @@ function addRow(){
         </select>
     </td>
 
-    <td class="weight"></td>
+    <td>
+    <input type="number" class="weight" min="0" step="0.01"
+        oninput="calculateRow(this)">
+</td>
 
     <td>
         <input type="number" min="1" value="1" oninput="calculateRow(this)">
@@ -252,7 +274,7 @@ function onProductSelect(select){
 
     if(product){
 
-        row.querySelector(".weight").innerText = product.weight;
+        row.querySelector(".weight").value = product.weight;
         row.querySelector(".price").value = product.unit_price;
 
         calculateRow(select);
@@ -262,7 +284,9 @@ function calculateRow(element){
 
     const row = element.closest("tr");
 
-    const qty = row.querySelector("input").value;
+    // const qty = row.querySelector("input").value;
+
+    const qty = row.querySelector("input[type='number']").value;
     const price = row.querySelector(".price").value;
 
     const total =  parseFloat((qty * price).toFixed(2));
@@ -316,7 +340,7 @@ async function createQuotation(){
     rows.forEach(row => {
 
     const productId = row.querySelector("select").value;
-    const weight = row.querySelector(".weight").innerText;
+    const weight = row.querySelector(".weight").value;
     const qty = row.querySelector("input").value;
     const price = row.querySelector(".price").value;
     const total = row.querySelector(".total").innerText;
@@ -512,7 +536,7 @@ async function editQuotation(id){
     const ledgerData = await ledgerRes.json();
 
     document.getElementById("gst").value = ledgerData.gst_no || "";
-    document.getElementById("state").value = ledgerData.state || "";
+    document.getElementById("state").value = stateMap[ledgerData.state] || ledgerData.state || "";
     // ✅ ✅ ✅ END HERE
 
     // 🔹 CLEAR OLD ROWS
@@ -539,7 +563,10 @@ async function editQuotation(id){
             </select>
         </td>
 
-        <td class="weight">${item.weight}</td>
+        <td>
+    <input type="number" class="weight" value="${item.weight}"
+        oninput="calculateRow(this)">
+</td>
 
         <td>
             <input type="number" value="${item.qty}" oninput="calculateRow(this)">
@@ -616,7 +643,7 @@ async function updateQuotation(){
     rows.forEach(row => {
 
         const productId = row.querySelector("select").value;
-        const weight = row.querySelector(".weight").innerText;
+        const weight = row.querySelector(".weight").value;
         const qty = row.querySelector("input").value;
         const price = row.querySelector(".price").value;
         const total = row.querySelector(".total").innerText;
