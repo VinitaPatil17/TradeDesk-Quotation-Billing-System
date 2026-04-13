@@ -519,6 +519,7 @@ async function editQuotation(id){
 
     await loadLedgers();
     await loadProductsList();
+    await loadStates();
 
     const res = await fetch(`/api/quotation/${id}`);
     const data = await res.json();
@@ -552,6 +553,10 @@ async function editQuotation(id){
     const tbody = document.getElementById("quotationProductsBody");
     tbody.innerHTML = "";
 
+    if(productsList.length === 0){
+    await loadProductsList();
+}
+
     // 🔹 ADD ROWS
     items.forEach(item => {
 
@@ -578,7 +583,7 @@ async function editQuotation(id){
 </td>
 
         <td>
-            <input type="number" value="${item.qty}" oninput="calculateRow(this)">
+            <input type="number" class="qty" value="${item.qty}" oninput="calculateRow(this)">
         </td>
 
         <td>
@@ -598,7 +603,7 @@ async function editQuotation(id){
     });
 
     document.querySelectorAll("#quotationProductsBody tr").forEach(row => {
-    calculateRow(row.querySelector("input"));
+    calculateRow(row.querySelector(".qty"));
 });
 
     // 🔥 RECALCULATE TOTAL
