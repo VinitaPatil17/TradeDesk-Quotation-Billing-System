@@ -695,11 +695,13 @@ async function updateQuotation(){
         const data = await res.json();
 
         if(data.success){
-            alert("Updated successfully ✅");
 
-            closeModal();
-            loadQuotations();
-        }
+    alert("Updated successfully ✅");
+
+    closeModal();
+
+    await loadQuotations(); // 🔥 IMPORTANT
+}
 
     }catch(err){
         console.log(err);
