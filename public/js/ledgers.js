@@ -1,5 +1,6 @@
 let selectedIds =[];
 let editLedgerId = null;
+let stateMap = {}; // 🔥 store code → name
 
 function toggleSidebar(){
     const sidebar = document.getElementById("sidebar");
@@ -36,9 +37,12 @@ async function loadStates(){
 
         stateSelect.innerHTML = `<option value="">Select State</option>`;
 
+        stateMap = {}; // reset map
+
         states.forEach(s => {
+            stateMap[s.isoCode] = s.name;
             stateSelect.innerHTML += `
-                <option value="${s.isoCode}" data-name="${s.name}">
+                <option value="${s.isoCode}">
                     ${s.name}
                 </option>
             `;
@@ -253,7 +257,7 @@ async function loadLedgers(){
 
     <td>${l.name}</td>
     <td>${l.gst_no || ""}</td>
-    <td>${l.stateName ||l.state || ""}</td>
+    <td>${stateMap[l.state] ||l.state || ""}</td>
     <td>${l.city || ""}</td>
     <td>${l.phone || ""}</td>
 
@@ -517,5 +521,9 @@ async function editLedger(id){
     document.getElementById("saveLedgerBtn").innerText = "Save";
 
 }
+async function init(){
+    await loadStates();   // 🔥 load state names first
+    await loadLedgers();  // then load table
+}
 
-loadLedgers();
+init();
