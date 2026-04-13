@@ -53,6 +53,7 @@ padding:6px 10px;
 .table-container {
     width: 100%;
     overflow-x: auto;
+    overflow-y: visible;
 }
 .products-table{
 
@@ -61,7 +62,7 @@ width:100%;
 border-collapse:collapse;
 background:white;
     border-radius:10px;
-    overflow:hidden;
+    overflow:visible;
     box-shadow:0 4px 12px rgba(0,0,0,0.05);
 }
 .products-table thead{
@@ -339,7 +340,7 @@ tr:hover .dots-btn {
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-    z-index: 10;
+    z-index: 9999;
     overflow:hidden;
 }
 .action-menu div {
