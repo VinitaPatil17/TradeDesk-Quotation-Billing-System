@@ -1,4 +1,11 @@
+let isChanged = false;
+
 document.getElementById("saveBtn").addEventListener("click", saveSettings);
+
+document.getElementById("includeCompanyToggle")
+    .addEventListener("change", () => {
+        document.getElementById("saveBtn").disabled = false;
+    });
 
 function toggleSidebar(){
 const sidebar = document.getElementById("sidebar");
@@ -12,7 +19,7 @@ function enableEdit(){
                 input.disabled = false;
             }
         });
-
+        isChanged = true;
         document.getElementById("saveBtn").disabled = false; // enable save
 }
 
@@ -94,3 +101,16 @@ async function saveSettings() {
 }
 
 loadUserSettings();
+
+document.querySelectorAll(".settings-grid input").forEach(input => {
+    input.addEventListener("input", () => {
+        isChanged = true;
+        document.getElementById("saveBtn").disabled = false;
+    });
+});
+
+document.getElementById("includeCompanyToggle")
+    .addEventListener("change", () => {
+        isChanged = true;
+        document.getElementById("saveBtn").disabled = false;
+    });
