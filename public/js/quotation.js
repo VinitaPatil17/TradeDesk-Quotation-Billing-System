@@ -194,12 +194,12 @@ function addRow(){
     </td>
 
     <td>
-    <input type="number" class="weight" min="0" step="0.01"
-        oninput="calculateRow(this)">
-</td>
+        <input type="number" class="weight" min="0" step="0.01"
+            oninput="calculateRow(this)">
+    </td>
 
     <td>
-        <input type="number" min="1" value="1" oninput="calculateRow(this)">
+        <input type="number" class="qty" min="1" value="1" oninput="calculateRow(this)">
     </td>
 
     <td>
@@ -286,7 +286,7 @@ function calculateRow(element){
 
     // const qty = row.querySelector("input").value;
 
-    const qty = row.querySelector("input[type='number']").value;
+    const qty = row.querySelector(".qty").value;
     const price = row.querySelector(".price").value;
 
     const total =  parseFloat((qty * price).toFixed(2));
@@ -341,7 +341,7 @@ async function createQuotation(){
 
     const productId = row.querySelector("select").value;
     const weight = row.querySelector(".weight").value;
-    const qty = row.querySelector("input").value;
+    const qty = row.querySelector(".qty").value;
     const price = row.querySelector(".price").value;
     const total = row.querySelector(".total").innerText;
 
