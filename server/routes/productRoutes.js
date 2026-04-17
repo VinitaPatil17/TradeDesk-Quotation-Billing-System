@@ -23,8 +23,8 @@ await db.query(
         res.json({ success: true });
 
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false });
+        console.error("ADD PRODUCT ERROR:", err.message);
+    res.status(500).json({ success: false, error: err.message });
     }
 });
 
