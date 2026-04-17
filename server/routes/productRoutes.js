@@ -12,11 +12,12 @@ router.post("/add-product", async (req, res) => {
 
     try {
 
-        const result = await db.query(
-            "INSERT INTO products (products_description, weight, unit_price) VALUES ($1,$2,$3) RETURNING id",
-            [description, weight, price]
-        );
+        const userId = req.session.user.id;
 
+await db.query(
+    "INSERT INTO products (products_description, weight, unit_price, user_id) VALUES ($1,$2,$3,$4)",
+    [description, weight, price, userId]
+);
         const productId = result.rows[0].id;
 
         res.json({ success: true });
@@ -31,7 +32,12 @@ router.get("/products", async (req,res)=>{
 
 try{
 
-const result = await db.query("SELECT * FROM products ORDER BY id DESC");
+const userId = req.session.user.id;
+
+const result = await db.query(
+    "SELECT * FROM products WHERE user_id=$1 ORDER BY id DESC",
+    [userId]
+);
 res.json(result.rows);
 
 }catch(err){
@@ -105,9 +111,11 @@ const { name, gst, state, city, phone } = req.body;
 
 try{
 
+const userId = req.session.user.id;
+
 await db.query(
-"INSERT INTO ledgers(name, gst_no, state, city, phone) VALUES($1,$2,$3,$4,$5)",
-[name, gst, state, city, phone]
+"INSERT INTO ledgers(name, gst_no, state, city, phone, user_id) VALUES($1,$2,$3,$4,$5,$6)",
+[name, gst, state, city, phone, userId]
 );
 
 res.json({success:true});
@@ -124,7 +132,12 @@ router.get("/ledgers", async (req,res)=>{
 
 try{
 
-const result = await db.query("SELECT * FROM ledgers ORDER BY id DESC");
+const userId = req.session.user.id;
+
+const result = await db.query(
+    "SELECT * FROM ledgers WHERE user_id=$1 ORDER BY id DESC",
+    [userId]
+);
 res.json(result.rows);
 
 }catch(err){
@@ -223,12 +236,14 @@ router.post("/create-quotation", async (req, res) => {
     try {
 
         // 🔹 1. Insert quotation
-        const result = await db.query(
-            `INSERT INTO quotations 
-            (ledger_id, phone, place, date, other_charges, grand_total) 
-            VALUES ($1,$2,$3,$4,$5,$6) RETURNING id`,
-            [ledgerId, phone, place, date, otherCharges, grandTotal]
-        );
+        const userId = req.session.user.id;
+
+const result = await db.query(
+`INSERT INTO quotations 
+(ledger_id, phone, place, date, other_charges, grand_total, user_id) 
+VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id`,
+[ledgerId, phone, place, date, otherCharges, grandTotal, userId]
+);
 
         const quotationId = result.rows[0].id;
 
@@ -413,12 +428,15 @@ router.get("/quotations", async (req, res) => {
 
     try {
 
-        const result = await db.query(`
-            SELECT q.id, q.phone, q.place, q.date, q.grand_total, l.name AS ledger_name
-            FROM quotations q
-            JOIN ledgers l ON q.ledger_id = l.id
-            ORDER BY q.id DESC
-        `);
+        const userId = req.session.user.id;
+
+const result = await db.query(`
+    SELECT q.id, q.phone, q.place, q.date, q.grand_total, l.name AS ledger_name
+    FROM quotations q
+    JOIN ledgers l ON q.ledger_id = l.id
+    WHERE q.user_id = $1
+    ORDER BY q.id DESC
+`, [userId]);
 
         res.json(result.rows);
 
