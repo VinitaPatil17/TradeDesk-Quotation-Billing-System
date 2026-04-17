@@ -46,6 +46,7 @@ async function saveProduct(){
     });
 
     const data = await response.json();
+    console.log("API RESPONSE:", data);
 
     if(data.success){
         alert(editingProductId ? "Product Updated ✅" : "Product Saved ✅");
