@@ -50,7 +50,7 @@ async function saveProduct(){
     if(data.success){
         alert(editingProductId ? "Product Updated ✅" : "Product Saved ✅");
         closeModal();
-        loadProducts();
+        await loadProducts();
     }
 }
 
