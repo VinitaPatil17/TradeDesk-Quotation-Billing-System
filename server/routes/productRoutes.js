@@ -9,15 +9,19 @@ const { State, City } = require("country-state-city");
 router.post("/add-product", async (req, res) => {
 
     const { description, weight, price } = req.body;
+    const userId = req.session.user.id;
 
     try {
 
-        const userId = req.session.user.id;
+        
 
-await db.query(
-    "INSERT INTO products (products_description, weight, unit_price, user_id) VALUES ($1,$2,$3,$4)",
-    [description, weight, price, userId]
-);
+const result = await db.query(
+            `INSERT INTO products 
+            (products_description, weight, unit_price, user_id) 
+            VALUES ($1,$2,$3,$4) RETURNING id`,
+            [description, weight, price, userId]
+        );
+
         const productId = result.rows[0].id;
 
         res.json({ success: true });
