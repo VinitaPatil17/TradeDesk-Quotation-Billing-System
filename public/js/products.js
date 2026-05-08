@@ -6,10 +6,9 @@ function toggleSidebar(){
 }
 function openModal(){
 
-    editingProductId = null; // NEW PRODUCT
+    editingProductId = null; 
     document.getElementById("productModal").style.display="flex";
 
-    // clear fields
     document.getElementById("desc").value = "";
     document.getElementById("weight").value = "";
     document.getElementById("price").value = "";
@@ -49,10 +48,13 @@ async function saveProduct(){
     console.log("API RESPONSE:", data);
 
     if(data.success){
-        alert(editingProductId ? "Product Updated ✅" : "Product Saved ✅");
+        alert(editingProductId ? "Product Updated " : "Product Saved ");
         closeModal();
         await loadProducts();
+    }else{
+        alert(data.error);
     }
+
 }
 
 async function deleteProduct(id){
@@ -72,7 +74,7 @@ async function deleteProduct(id){
     const data = await res.json();
 
     if(data.success){
-        alert("Product Deleted ✅");
+        alert("Product Deleted ");
         loadProducts();
     }
 }
@@ -150,7 +152,6 @@ function updateActionBar(){
         actionBar.style.display = "none";
     }
 
-    // 🔥 sync header checkbox
     const all = document.querySelectorAll(".row-checkbox");
     const selectAll = document.getElementById("selectAll");
 
@@ -199,7 +200,7 @@ async function deleteSelected(){
     const data = await res.json();
 
     if(data.success){
-        alert("Deleted Successfully ✅");
+        alert("Deleted Successfully ");
         loadProducts();
         clearSelection();
     }

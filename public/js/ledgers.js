@@ -1,6 +1,6 @@
 let selectedIds =[];
 let editLedgerId = null;
-let stateMap = {}; // 🔥 store code → name
+let stateMap = {}; 
 
 function toggleSidebar(){
     const sidebar = document.getElementById("sidebar");
@@ -9,22 +9,20 @@ function toggleSidebar(){
 
 function openModal(){
 
-    editLedgerId = null; // 🔥 important
+    editLedgerId = null; 
 
     document.getElementById("ledgerModal").style.display = "flex";
 
-    // clear fields
     document.getElementById("name").value = "";
     document.getElementById("gst").value = "";
     document.getElementById("state").value = "";
     document.getElementById("city").value = "";
     document.getElementById("phone").value = "";
 
-    loadStates(); // 🔥 important
+    loadStates(); 
 
     document.getElementById("city").innerHTML = `<option value="">Select City</option>`;
 
-    // reset button text
     document.getElementById("saveLedgerBtn").innerText = "Create";
 }
 
@@ -37,7 +35,7 @@ async function loadStates(){
 
         stateSelect.innerHTML = `<option value="">Select State</option>`;
 
-        stateMap = {}; // reset map
+        stateMap = {}; 
 
         states.forEach(s => {
             stateMap[s.isoCode] = s.name;
@@ -53,42 +51,8 @@ async function loadStates(){
     }
 }
 
-// async function loadCities(){
-
-//     console.log("loadCities called 🔥"); // 👈 add this
-
-//     const stateCode = document.getElementById("state").value;
-
-//     if(!stateCode) return;
-
-//     try{
-//         const res = await fetch(`/api/cities/${stateCode}`);
-//         const cities = await res.json();
-
-//         const citySelect = document.getElementById("city");
-
-//         citySelect.innerHTML = `<option value="">Select City</option>`;
-
-//         if(!stateCode){
-//     document.getElementById("city").innerHTML = `<option value="">Select State First</option>`;
-//     return;
-// }
-
-//         cities.forEach(c => {
-//             citySelect.innerHTML += `
-//                 <option value="${c.name}">
-//                     ${c.name}
-//                 </option>
-//             `;
-//         });
-
-//     }catch(err){
-//         console.log("Error loading cities:", err);
-//     }
-// }
-
 async function loadCities(){
-    console.log("loadCities called 🔥"); // 👈 add this
+    console.log("loadCities called "); 
     const stateCode = document.getElementById("state").value;
 
     if(!stateCode) return;
@@ -97,7 +61,7 @@ async function loadCities(){
         const res = await fetch(`/api/cities/${stateCode}`);
         const cities = await res.json();
 
-        console.log("Cities API response:", cities); // 👈 IMPORTANT
+        console.log("Cities API response:", cities); 
 
         const citySelect = document.getElementById("city");
 
@@ -120,7 +84,7 @@ function validateGST(input){
 
     input.value = input.value
         .replace(/[^a-zA-Z0-9]/g, "") // remove special chars
-        .toUpperCase(); // optional (GST usually uppercase)
+        .toUpperCase(); 
 
     if(input.value.length > 14){
         input.value = input.value.slice(0, 14);
@@ -150,7 +114,7 @@ async function saveLedger(){
     const city = document.getElementById("city").value;
     const phone = document.getElementById("phone").value;
 
-    // 🔥 CHECK MODE
+    
     if(editLedgerId){
 
         if(!name){
@@ -158,19 +122,17 @@ async function saveLedger(){
         return;
     }
 
-    // ✅ GST MUST BE EXACTLY 14
     if(gst && gst.length !== 14){
         alert("GST No must be exactly 14 characters");
         return;
     }
 
-    // ✅ PHONE MUST BE EXACTLY 10 DIGITS
     if(phone && phone.length !== 10){
         alert("Phone number must be exactly 10 digits");
         return;
     }
 
-        // 👉 EDIT MODE
+        // EDIT
         await fetch("/api/update-ledger", {
             method: "POST",
             headers: {
@@ -187,7 +149,7 @@ async function saveLedger(){
             })
         });
 
-        alert("Ledger Updated ✅");
+        alert("Ledger Updated");
 
     }else{
 
@@ -196,19 +158,17 @@ async function saveLedger(){
         return;
     }
 
-    // ✅ GST MUST BE EXACTLY 14
     if(gst && gst.length !== 14){
         alert("GST No must be exactly 14 characters");
         return;
     }
 
-    // ✅ PHONE MUST BE EXACTLY 10 DIGITS
     if(phone && phone.length !== 10){
         alert("Phone number must be exactly 10 digits");
         return;
     }
 
-        // 👉 CREATE MODE
+        //CREATE 
         await fetch("/api/add-ledger", {
             method: "POST",
             headers: {
@@ -224,16 +184,13 @@ async function saveLedger(){
             })
         });
 
-        alert("Ledger Created ✅");
+        alert("Ledger Created ");
     }
 
-    // 🔹 Reset state
     editLedgerId = null;
 
-    // 🔹 Close modal
     closeModal();
 
-    // 🔹 Refresh table
     loadLedgers();
 }
 
@@ -291,12 +248,10 @@ function searchLedgers(){
         const gst = row.children[2].textContent.toLowerCase();
         const state = row.children[3].textContent.toLowerCase(); 
 
-        // 🔥 WHEN SEARCH IS EMPTY → RESET EVERYTHING
         if(input === ""){
             row.style.display = "";
             row.style.backgroundColor = "";
 
-            // ❌ Uncheck checkbox
             const checkbox = row.querySelector(".rowCheckbox");
             if(checkbox){
                 checkbox.checked = false;
@@ -313,7 +268,6 @@ function searchLedgers(){
 
     });
 
-    // 🔥 ALSO CLEAR GLOBAL SELECTION
     if(input === ""){
         selectedIds = [];
         updateActionBar();
@@ -361,7 +315,7 @@ async function fillLedgerDetails(){
         const res = await fetch(`/api/ledger/${ledgerId}`);
         const data = await res.json();
 
-        console.log("Ledger Data:", data); // 🔥 DEBUG
+        console.log("Ledger Data:", data); 
 
         document.getElementById("phone").value = data.phone || "";
         document.getElementById("place").value = data.city || "";
@@ -466,15 +420,15 @@ async function bulkDelete(){
         const data = await res.json();
 
         if(data.success){
-            alert("Deleted successfully ✅");
+            alert("Deleted successfully ");
 
             clearSelection();
-            loadLedgers(); // 🔥 refresh table
+            loadLedgers(); 
         }
 
     }catch(err){
         console.log(err);
-        alert("Error deleting ❌");
+        alert("Error deleting ");
     }
 }
 
@@ -500,30 +454,28 @@ async function editLedger(id){
 
     editLedgerId = id;
 
-    // 🔹 Fetch ledger data
+    // Fetch ledger data
     const res = await fetch(`/api/ledger/${id}`);
     const data = await res.json();
 
-    // 🔹 Open modal
     document.getElementById("ledgerModal").style.display = "flex";
 
     await loadStates();
 
-    // 🔹 Prefill fields
+    // Prefill fields
     document.getElementById("name").value = data.name || "";
     document.getElementById("gst").value = data.gst_no || "";
     document.getElementById("state").value = data.state || "";
-    await loadCities(); // 🔥 load cities after setting state
+    await loadCities(); 
     document.getElementById("city").value = data.city || "";
     document.getElementById("phone").value = data.phone || "";
 
-    // 🔹 Change button text
     document.getElementById("saveLedgerBtn").innerText = "Save";
 
 }
 async function init(){
-    await loadStates();   // 🔥 load state names first
-    await loadLedgers();  // then load table
+    await loadStates();   
+    await loadLedgers();  
 }
 
 init();

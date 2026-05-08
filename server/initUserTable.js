@@ -15,9 +15,9 @@ async function createUsersTable(){
 
     try{
         await pool.query(query);
-        console.log("✅ Users table created successfully");
+        console.log(" Users table created successfully");
     }catch(err){
-        console.log("❌ Error creating table:", err);
+        console.log(" Error creating table:", err);
     }finally{
         process.exit(); // close script
     }

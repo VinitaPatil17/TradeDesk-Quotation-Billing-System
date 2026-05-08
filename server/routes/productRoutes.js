@@ -5,17 +5,14 @@ const { State, City } = require("country-state-city");
 // const PDFDocument = require("pdfkit");
 
 
-// ✅ ADD PRODUCT
+// PRODUCT
 router.post("/add-product", async (req, res) => {
 
     const { description, weight, price } = req.body;
     const userId = req.session.user.id;
 
     try {
-
-        
-
-const result = await db.query(
+        const result = await db.query(
             `INSERT INTO products 
             (products_description, weight, unit_price, user_id) 
             VALUES ($1,$2,$3,$4) RETURNING id`,
@@ -108,7 +105,7 @@ router.post("/delete-multiple-products", async (req, res) => {
 
 });
 
-// ADD LEDGER
+//  LEDGER
 router.post("/add-ledger", async (req,res)=>{
 
 const { name, gst, state, city, phone } = req.body;
@@ -224,7 +221,7 @@ res.status(500).json({});
 });
 
 
-// ✅ CREATE QUOTATION
+//  CREATE QUOTATION
 router.post("/create-quotation", async (req, res) => {
 
     const {
@@ -239,7 +236,7 @@ router.post("/create-quotation", async (req, res) => {
 
     try {
 
-        // 🔹 1. Insert quotation
+        // Insert quotation
         const userId = req.session.user.id;
 
 const result = await db.query(
@@ -251,7 +248,7 @@ VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id`,
 
         const quotationId = result.rows[0].id;
 
-        // 🔹 2. Insert products
+        // Insert products
         for(let i = 0; i < products.length; i++){
 
             const item = products[i];
@@ -318,13 +315,6 @@ router.get("/quotation-view/:id", async (req, res) => {
 
 console.log("COMPANY DATA FINAL:", user.rows[0]);
 
-        // res.render("quotationTemplate", {
-        //     quotation: q.rows[0],
-        //     items: items.rows,
-        //     isDownload: false,
-        //     company: user.rows[0] || {}
-        // });
-
         const states = State.getStatesOfCountry("IN");
         const stateMap = {};
 
@@ -332,7 +322,6 @@ console.log("COMPANY DATA FINAL:", user.rows[0]);
             stateMap[s.isoCode] = s.name;
         });
 
-// 🔥 Convert state before sending
         let quotationData = q.rows[0];
         quotationData.state = stateMap[quotationData.state] || quotationData.state;
 
@@ -396,13 +385,6 @@ console.log("COMPANY DATA FINAL:", user.rows[0]);
 
         console.log("COMPANY DATA:", user.rows[0]);
 
-        // res.render("quotationTemplate", {
-        //     quotation: q.rows[0],
-        //     items: items.rows,
-        //     isDownload: true,
-        //     company: user.rows[0] || {}
-        // });
-
         const states = State.getStatesOfCountry("IN");
 const stateMap = {};
 
@@ -427,7 +409,7 @@ res.render("quotationTemplate", {
 
 });
 
-// ✅ GET ALL QUOTATIONS
+//  GET ALL QUOTATIONS
 router.get("/quotations", async (req, res) => {
 
     try {
@@ -457,14 +439,11 @@ router.delete("/delete-quotation/:id", async (req, res) => {
     const id = req.params.id;
 
     try {
-
-        // 🔹 First delete items (important - foreign key)
         await db.query(
             "DELETE FROM quotation_items WHERE quotation_id=$1",
             [id]
         );
 
-        // 🔹 Then delete main quotation
         await db.query(
             "DELETE FROM quotations WHERE id=$1",
             [id]
@@ -527,7 +506,6 @@ router.put("/update-quotation/:id", async (req, res) => {
 
     try {
 
-        // 🔹 1. Update main quotation
         await db.query(
             `UPDATE quotations 
              SET ledger_id=$1, phone=$2, place=$3, date=$4, 
@@ -536,13 +514,11 @@ router.put("/update-quotation/:id", async (req, res) => {
             [ledgerId, phone, place, date, otherCharges, grandTotal, id]
         );
 
-        // 🔹 2. Delete old items
         await db.query(
             "DELETE FROM quotation_items WHERE quotation_id=$1",
             [id]
         );
 
-        // 🔹 3. Insert new items
         for(let i = 0; i < products.length; i++){
 
             const item = products[i];

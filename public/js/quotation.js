@@ -10,7 +10,7 @@ function toggleSidebar(){
 
 async function openModal(){
 
-    editingQuotationId = null; // 🔹 Create mode
+    editingQuotationId = null; 
 
     await loadStates();
     await loadLedgers();
@@ -20,7 +20,6 @@ async function openModal(){
 
     setTodayDate();
 
-    // 🔥 Clear previous data
     document.getElementById("ledgerSelect").value = "";
     document.getElementById("phone").value = "";
     document.getElementById("place").value = "";
@@ -31,7 +30,7 @@ document.getElementById("gst").value = "";
 
     document.getElementById("quotationProductsBody").innerHTML = "";
 
-    // 🔥 Set button text
+
     document.querySelector(".create-btn").innerText = "Create";
 
 }
@@ -43,7 +42,7 @@ function closeModal(){
 function openProductModalFromQuotation(){
     document.getElementById("productModal").style.display = "flex";
 
-    // clear fields
+  
     document.getElementById("desc").value = "";
     document.getElementById("weight").value = "";
     document.getElementById("price").value = "";
@@ -53,13 +52,13 @@ function closeProductModal(){
     document.getElementById("productModal").style.display = "none";
 }
 
-// ✅ Set today's date
+
 function setTodayDate(){
     const today = new Date().toISOString().split("T")[0];
     document.getElementById("date").value = today;
 }
 
-// ✅ Load ledgers into dropdown
+// Load ledgers in dropdown
 async function loadLedgers(){
 
     try{
@@ -126,7 +125,7 @@ function searchQuotations(){
             date.includes(input)
         ){
             row.style.display = "";
-            row.style.backgroundColor = "#fff3cd"; // highlight
+            row.style.backgroundColor = "#fff3cd"; 
         }
         else{
             row.style.display = "none";
@@ -135,7 +134,7 @@ function searchQuotations(){
     });
 }
 
-// ✅ Auto-fill phone & place
+//Auto-fill phone & place
 async function fillLedgerDetails(){
 
     const ledgerId = document.getElementById("ledgerSelect").value;
@@ -155,7 +154,7 @@ async function loadProductsList(){
         const res = await fetch("/api/products");
         const data = await res.json();
 
-        productsList = data; // 🔥 IMPORTANT
+        productsList = data; 
 
         console.log("Loaded Products:", productsList);
 
@@ -166,9 +165,9 @@ async function loadProductsList(){
 function handleSubmit(){
 
     if(editingQuotationId){
-        updateQuotation(); // 🔥 Edit mode
+        updateQuotation(); 
     } else {
-        createQuotation(); // 🔥 Create mode
+        createQuotation(); 
     }
 
 }
@@ -247,20 +246,17 @@ async function saveProductFromQuotation(){
 
         if(data.success){
 
-            alert("Product Created ✅");
+            alert("Product Created ");
 
             closeProductModal();
 
-            // 🔥 RELOAD PRODUCT LIST
             await loadProductsList();
-
-            // 🔥 OPTIONAL: Auto-select newly added product (advanced later)
 
         }
 
     }catch(err){
         console.log(err);
-        alert("Error saving product ❌");
+        alert("Error saving product ");
     }
 }
 
@@ -284,8 +280,6 @@ function calculateRow(element){
 
     const row = element.closest("tr");
 
-    // const qty = row.querySelector("input").value;
-
     const qty = row.querySelector(".qty").value;
     const price = row.querySelector(".price").value;
 
@@ -306,8 +300,6 @@ function calculateGrandTotal(){
 
     const other = Number(document.getElementById("otherCharges").value) || 0;
 
-    // document.getElementById("grandTotal").innerText = sum + other;
-
     const grandTotal = sum + other;
 
     document.getElementById("grandTotal").innerText = Math.round(grandTotal);
@@ -319,19 +311,17 @@ function removeRow(btn){
 
 async function createQuotation(){
 
-    // 🔹 BASIC DETAILS
+  
     const ledgerId = document.getElementById("ledgerSelect").value;
     const phone = document.getElementById("phone").value;
     const place = document.getElementById("place").value;
     const date = document.getElementById("date").value;
 
-    // 🔹 VALIDATION (IMPORTANT)
     if(!ledgerId){
         alert("Please select a ledger");
         return;
     }
 
-    // 🔹 PRODUCTS DATA
     const rows = document.querySelectorAll("#quotationProductsBody tr");
     console.log("TOTAL ROWS:", rows.length);
 
@@ -367,11 +357,9 @@ async function createQuotation(){
 
 console.log("FINAL PRODUCTS:", products);
 
-    // 🔹 OTHER CHARGES & GRAND TOTAL
     const otherCharges = document.getElementById("otherCharges").value || 0;
     const grandTotal = document.getElementById("grandTotal").innerText;
 
-    // 🔹 FINAL OBJECT
     const quotationData = {
         ledgerId,
         phone,
@@ -396,15 +384,12 @@ console.log("FINAL PRODUCTS:", products);
 
     if(data.success){
 
-    alert("Quotation Saved ✅");
+    alert("Quotation Saved ");
 
-    // 🔹 Close modal first
     closeModal();
 
-    // 🔹 Refresh table without reload
     await loadQuotations();
 
-    // 🔹 THEN open quotation (optional)
     setTimeout(() => {
         window.open(`/api/quotation-view/${data.quotationId}`, "_blank");
     }, 300);
@@ -412,7 +397,7 @@ console.log("FINAL PRODUCTS:", products);
 
 }catch(err){
     console.log(err);
-    alert("Error saving quotation ❌");
+    alert("Error saving quotation ");
 }
 }
 
@@ -457,7 +442,6 @@ data.forEach(q => {
 `;
 });
 
-// 🔥 AUTO SCROLL
 if(selectedQuotationId){
 
     setTimeout(() => {
@@ -493,7 +477,6 @@ function toggleMenu(btn){
     menu.style.display = (menu.style.display === "block") ? "none" : "block";
 }
 
-// close menu when clicking outside
 document.addEventListener("click", function(e){
 
     if(!e.target.classList.contains("dots-btn")){
@@ -527,13 +510,10 @@ async function editQuotation(id){
     const q = data.quotation;
     const items = data.items;
 
-    // 🔥 OPEN MODAL
     document.getElementById("quotationModal").style.display = "flex";
 
-    // 🔥 CHANGE BUTTON
     document.querySelector(".create-btn").innerText = "Save";
 
-    // 🔹 PREFILL BASIC DATA
     document.getElementById("ledgerSelect").value = q.ledger_id;
     document.getElementById("phone").value = q.phone;
     document.getElementById("place").value = q.place;
@@ -541,15 +521,12 @@ async function editQuotation(id){
 
     document.getElementById("otherCharges").value = q.other_charges;
 
-    // ✅ ✅ ✅ ADD THIS BLOCK RIGHT HERE 👇
     const ledgerRes = await fetch(`/api/ledger/${q.ledger_id}`);
     const ledgerData = await ledgerRes.json();
 
     document.getElementById("gst").value = ledgerData.gst_no || "";
     document.getElementById("state").value = stateMap[ledgerData.state] || ledgerData.state || "";
-    // ✅ ✅ ✅ END HERE
-
-    // 🔹 CLEAR OLD ROWS
+  
     const tbody = document.getElementById("quotationProductsBody");
     tbody.innerHTML = "";
 
@@ -557,7 +534,7 @@ async function editQuotation(id){
     await loadProductsList();
 }
 
-    // 🔹 ADD ROWS
+    
     items.forEach(item => {
 
         let options = `<option value="">Select Product</option>`;
@@ -606,7 +583,6 @@ async function editQuotation(id){
     calculateRow(row.querySelector(".qty"));
 });
 
-    // 🔥 RECALCULATE TOTAL
     calculateGrandTotal();
 
 }
@@ -625,20 +601,19 @@ async function deleteQuotation(id){
         const data = await res.json();
 
         if(data.success){
-            alert("Deleted successfully ✅");
-            loadQuotations(); // refresh table
+            alert("Deleted successfully ");
+            loadQuotations(); 
         }
 
     }catch(err){
         console.log(err);
-        alert("Error deleting ❌");
+        alert("Error deleting ");
     }
 
 }
 
 async function updateQuotation(){
 
-    // 🔹 BASIC DETAILS
     const ledgerId = document.getElementById("ledgerSelect").value;
     const phone = document.getElementById("phone").value;
     const place = document.getElementById("place").value;
@@ -649,7 +624,6 @@ async function updateQuotation(){
         return;
     }
 
-    // 🔹 PRODUCTS
     const rows = document.querySelectorAll("#quotationProductsBody tr");
 
     let products = [];
@@ -701,16 +675,16 @@ async function updateQuotation(){
 
         if(data.success){
 
-    alert("Updated successfully ✅");
+    alert("Updated successfully ");
 
     closeModal();
 
-    await loadQuotations(); // 🔥 IMPORTANT
+    await loadQuotations(); 
 }
 
     }catch(err){
         console.log(err);
-        alert("Error updating ❌");
+        alert("Error updating ");
     }
 
 }

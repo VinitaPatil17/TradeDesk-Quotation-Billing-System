@@ -4,10 +4,6 @@ window.location.href = "/login";
 function goBack(){
 window.location.href = "/welcome";
 }
-function goToLogin(){
-window.location.href = "/login";
-}
-
 function goToOTP(){
 window.location.href = "/otp-verification";
 }
@@ -20,7 +16,7 @@ window.location.href = "/reset-password";
 }
 
 function sendOTP(){
-alert("OTP sent to your email (demo)");
+alert("OTP sent to your email");
 }
 function resetPassword(){
 alert("Password reset successful!");
@@ -57,7 +53,7 @@ async function register(){
     const data = await res.json();
 
     if(data.success){
-        alert("Registered Successfully ✅");
+        alert("Registered Successfully ");
         window.location.href = "/login.html";
     } else {
         alert(data.message);
@@ -71,7 +67,7 @@ async function loginUser(){
     const passwordInput = document.getElementById("password");
 
     if(!emailInput || !passwordInput){
-        console.log("Inputs not found ❌");
+        console.log("Inputs not found ");
         return;
     }
 
@@ -96,7 +92,7 @@ async function loginUser(){
         console.log("Response:", data);
 
         if(data.success){
-            alert("Login Successful ✅");
+            alert("Login Successful ");
             window.location.href = "/dashboard";
         } else {
             alert(data.message);
@@ -137,7 +133,7 @@ function openProfileModal(){
 
     document.getElementById("profileModal").style.display = "flex";
 
-    loadProfileData(); // 🔥 fetch data
+    loadProfileData(); // fetch data
 }
 
 function closeProfileModal(){
@@ -166,7 +162,7 @@ async function loadProfileData(){
 }
 
 function confirmLogout(){
-   console.log("Logout clicked ✅");
+   console.log("Logout clicked ");
 
     const modal = document.getElementById("logoutModal");
     console.log("Modal element:", modal);
@@ -174,7 +170,7 @@ function confirmLogout(){
     if(modal){
         modal.style.display = "flex";
     } else {
-        console.log("Modal not found ❌");
+        console.log("Modal not found ");
     }
 }
 
@@ -201,7 +197,6 @@ async function loadRecentQuotations(){
 
         tbody.innerHTML = "";
 
-        // 🔥 take only latest 5
         const recent = data.slice(0, 5);
 
         recent.forEach(q => {

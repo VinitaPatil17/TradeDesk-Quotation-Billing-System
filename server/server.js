@@ -11,11 +11,11 @@ const authRoutes = require("./routes/auth");
 app.use(express.json());
 
 app.use(session({
-    secret: "tradedesk-secret-key", // 🔐 can be anything
+    secret: "tradedesk-secret-key", 
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: true, // true only in HTTPS
+        secure: true, 
         sameSite: "none"
     }
 }));
@@ -28,7 +28,6 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
-//app.use(express.static("views"));
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -36,7 +35,7 @@ app.set("views", "views");
 const PORT = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
-    res.render("welcome"); // or "welcome" whatever your first page is
+    res.render("welcome"); 
 });
 app.get("/login",(req,res)=>{
 res.render("login", {activePage:"login"});

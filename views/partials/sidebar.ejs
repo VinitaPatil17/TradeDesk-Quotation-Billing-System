@@ -1,7 +1,7 @@
 <div class="sidebar" id="sidebar">
 
 <div class="sidebar-top">
-<div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+<div class="toggle-btn fa-solid fa-bars" onclick="toggleSidebar()"></div>
 </div>
 
 <ul class="menu">
@@ -20,21 +20,21 @@
 </a>
 </li>
 
-<li  >
+<li class="<%= activePage === 'ledgers' ? 'active' : '' %>"  >
 <a href="/ledgers">
 <i class="fa-solid fa-box icon"></i>
 <span class="text">Ledgers</span>
 </a>
 </li>
 
-<li>
+<li class="<%= activePage === 'quotation' ? 'active' : '' %>" >
 <a href="/quotation">
 <i class="fa-solid fa-file icon"></i>
 <span class="text">Quotations</span>
 </a>
 </li>
 
-<li>
+<li class="<%= activePage === 'settings' ? 'active' : '' %>" >
 <a href="/settings">
 <i class="fa-solid fa-gear icon"></i>
 <span class="text">Settings</span>

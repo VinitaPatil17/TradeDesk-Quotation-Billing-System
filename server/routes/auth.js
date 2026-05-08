@@ -4,7 +4,6 @@ const pool = require("../config/db");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 
-// EMAIL CONFIG
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -13,7 +12,6 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// REGISTER
 router.post("/register", async (req, res) => {
 
     const { company, gst, phone, email, password } = req.body;
@@ -40,8 +38,6 @@ router.post("/register", async (req, res) => {
 
 });
 
-
-// LOGIN
 router.post("/login", async (req, res) => {
 
     const { email, password } = req.body;
@@ -52,7 +48,6 @@ router.post("/login", async (req, res) => {
 
     try {
 
-        // 🔹 CHECK USER
         const user = await pool.query(
             "SELECT * FROM users WHERE email = $1",
             [email]
@@ -64,14 +59,12 @@ router.post("/login", async (req, res) => {
 
         const dbUser = user.rows[0];
 
-        // 🔹 PASSWORD CHECK
         const isMatch = await bcrypt.compare(password, dbUser.password);
 
         if (!isMatch) {
             return res.json({ success: false, message: "Wrong password" });
         }
 
-        // ✅ SESSION STORE
         req.session.user = dbUser;
 
         res.json({
@@ -128,7 +121,6 @@ router.get("/user-data", async (req, res) => {
 
     try {
 
-        // 🔹 GET USER DATA
         const user = await pool.query(
             `SELECT company_name, gst_no, phone, email, address 
              FROM users 
@@ -136,7 +128,6 @@ router.get("/user-data", async (req, res) => {
             [userId]
         );
 
-        // 🔹 GET SETTINGS
         const settings = await pool.query(
             `SELECT include_company
              FROM settings 
@@ -166,7 +157,7 @@ router.post("/settings/update", async (req, res) => {
 
     try {
 
-        // 🔹 1. UPDATE USERS TABLE
+        //  UPDATE USERS TABLE
         await pool.query(
             `UPDATE users 
              SET company_name = $1, gst_no = $2, phone = $3, address = $4
@@ -174,7 +165,7 @@ router.post("/settings/update", async (req, res) => {
             [company, gst, phone, address, userId]
         );
 
-        // 🔹 2. UPDATE SETTINGS TABLE
+        //  UPDATE SETTINGS TABLE
         await pool.query(
             `INSERT INTO settings (user_id, include_company)
              VALUES ($1, $2)
@@ -184,16 +175,14 @@ router.post("/settings/update", async (req, res) => {
             [userId, includeCompany]
         );
 
-        // res.json({ success: true });
-
         req.session.user.company_name = company;
-req.session.user.gst_no = gst;
-req.session.user.phone = phone;
-req.session.user.address = address;
+        req.session.user.gst_no = gst;
+        req.session.user.phone = phone;
+        req.session.user.address = address;
 
-res.json({ success: true });
+        res.json({ success: true });
 
-console.log("Received from frontend:", includeCompany);
+        console.log("Received from frontend:", includeCompany);
 
     } catch (err) {
         console.log(err);
@@ -212,7 +201,7 @@ router.get("/company-info", async (req, res) => {
 
     try {
 
-        // 🔹 USER DATA
+        //  USER DATA
         const user = await pool.query(
             `SELECT company_name, gst_no, phone, email, address 
              FROM users 
@@ -220,7 +209,7 @@ router.get("/company-info", async (req, res) => {
             [userId]
         );
 
-        // 🔹 SETTINGS
+        // SETTINGS
         const settings = await pool.query(
             `SELECT include_company 
              FROM settings 
@@ -276,16 +265,13 @@ router.post("/update-settings", async (req, res) => {
     }
 });
 
-
-
-// SEND OTP
 router.post("/forgot-password", async (req, res) => {
 
     const { email } = req.body;
 
     try{
 
-        // 1. CHECK USER
+        
         const user = await pool.query(
             "SELECT * FROM users WHERE email=$1",
             [email]
@@ -295,19 +281,16 @@ router.post("/forgot-password", async (req, res) => {
             return res.json({ success: false, message: "Email not registered" });
         }
 
-        // 2. GENERATE OTP
+        //  GENERATE OTP
         const otp = Math.floor(100000 + Math.random() * 900000);
 
-        // 3. EXPIRY
         const expiry = new Date(Date.now() + 5 * 60 * 1000);
 
-        // 4. SAVE
         await pool.query(
             "UPDATE users SET otp_code=$1, otp_expiry=$2 WHERE email=$3",
             [otp, expiry, email]
         );
 
-        // 5. SEND EMAIL
         await transporter.sendMail({
             from: "tradedeskservice@gmail.com",
             to: email,
@@ -339,7 +322,6 @@ router.post("/verify-otp", async (req, res) => {
             [email]
         );
 
-        // ❌ user not found
         if(result.rows.length === 0){
             return res.json({
                 success: false,
@@ -349,29 +331,25 @@ router.post("/verify-otp", async (req, res) => {
 
         const user = result.rows[0];
 
-        // ❌ OTP mismatch
         if(user.otp_code !== otp){
             return res.json({
                 success: false,
-                message: "Invalid OTP ❌"
+                message: "Invalid OTP "
             });
         }
 
-        // ❌ OTP expired
         if(new Date() > new Date(user.otp_expiry)){
             return res.json({
                 success: false,
-                message: "OTP expired ⏳"
+                message: "OTP expired "
             });
         }
 
-        // ✅ CLEAR OTP
         await pool.query(
             "UPDATE users SET otp_code = NULL, otp_expiry = NULL WHERE email = $1",
             [email]
         );
 
-        // ✅ OTP correct
         res.json({
             success: true
         });
@@ -391,7 +369,6 @@ router.post("/reset-password", async (req, res) => {
 
     try {
 
-        // ❌ Check if user exists
         const result = await pool.query(
             "SELECT * FROM users WHERE email = $1",
             [email]
@@ -404,10 +381,9 @@ router.post("/reset-password", async (req, res) => {
             });
         }
 
-        // 🔐 Hash new password
+        // Hash new password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // ✅ Update password
         await pool.query(
             "UPDATE users SET password = $1 WHERE email = $2",
             [hashedPassword, email]
@@ -415,7 +391,7 @@ router.post("/reset-password", async (req, res) => {
 
         res.json({
             success: true,
-            message: "Password updated successfully ✅"
+            message: "Password updated successfully "
         });
 
     } catch (err) {

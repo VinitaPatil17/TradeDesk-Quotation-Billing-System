@@ -15,12 +15,12 @@ sidebar.classList.toggle("collapsed");
 function enableEdit(){
     document.querySelectorAll(".settings-grid input")
         .forEach(input => {
-            if(input.id !== "setEmail"){   // 🚫 exclude email
+            if(input.id !== "setEmail"){  
                 input.disabled = false;
             }
         });
         isChanged = true;
-        document.getElementById("saveBtn").disabled = false; // enable save
+        document.getElementById("saveBtn").disabled = false; 
 }
 
 function cancelEdit(){
@@ -42,7 +42,7 @@ async function loadUserSettings(){
             document.getElementById("phone").value = data.user.phone || "";
             document.getElementById("address").value = data.user.address || "";
 
-            // toggles (default false if not present)
+            
             const includeToggle = document.getElementById("includeCompanyToggle");
 
 if(includeToggle){
@@ -58,7 +58,7 @@ if(includeToggle){
 
 async function saveSettings() {
 
-    console.log("SAVE BUTTON CLICKED 🔥"); // debug
+    console.log("SAVE BUTTON CLICKED "); 
 
     const company = document.getElementById("companyName").value;
     const gst = document.getElementById("gst").value;
@@ -89,7 +89,7 @@ async function saveSettings() {
 });
 
         if (data.success) {
-            alert("Settings saved successfully ✅");
+            alert("Settings saved successfully ");
             location.reload();
         } else {
             alert(data.message);
